@@ -1,0 +1,13 @@
+<template name="viewGist">
+  <h1>{{description}}</h1>
+  <h2>Files:</h2>
+  <div class="files">
+    {{#each files}}
+    <form id="{{filename}}-form">
+      <h3 name="filename">{{filename}}</h3>
+      <textarea name="gist" id="{{filename}}-content" value="{{content}}"></textarea>
+      <input type="submit" class="update" value="Update Gist"/>
+    </form>
+    {{/each}}
+  </div>
+</template>

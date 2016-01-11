@@ -1,0 +1,13 @@
+<template name="listGists">
+  <h1>{{currentUser.profile.name}}'s gists:</h1>
+  <div id="name">
+    {{userData}}
+  </div>
+  <ul>
+    {{#each gists}}
+      <div class="gist">
+        {{> viewGist}}
+      </div>
+    {{/each}}
+  </ul>
+</template>

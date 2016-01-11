@@ -9,9 +9,9 @@ front-end
     set title
     invite collaborators by github @
   live editor
-    text editor
+*    text editor
       syntax highlight
-      indicate cursor
+*      indicate cursor
     list of collaborators
     commands
       save
