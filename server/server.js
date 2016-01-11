@@ -1,6 +1,6 @@
 const fetch = Meteor.npmRequire('node-fetch')
 
-// retrieve list of gists upon Login
+// retrieve list of user's gists upon Login
 Accounts.onLogin(function () {
   const url = 'https://api.github.com/users/' + Meteor.user().services.github.username + '/gists'
   const header = {
@@ -8,14 +8,16 @@ Accounts.onLogin(function () {
   }
   fetch(url, header)
     .then(res => res.json())
-    .then(docs => {
-      let userDocs = []
-      docs.forEach(doc => userDocs.push(doc.id))
+    .then(gists => {
+      let userGists = []
+      gists.forEach(gist => {
+        Meteor.call('retrieveGistFiles', gist.id)
+        userGists.push(gist.id)
+      })
       Meteor.users.update(
         { _id: Meteor.userId() },
-        { $set: { docs: userDocs } }
+        { $set: { gists: userGists } }
       )
-      userDocs.forEach(doc => Meteor.call('createDocument', doc))
     })
 })
 
@@ -27,23 +29,35 @@ Meteor.publish('userData', function(){
 })
 
 Meteor.methods({
-  createDocument: function (docId) {
-    const url = 'https://api.github.com/gists/' + docId
+  retrieveGistFiles: function (gistId) {
+    // retrieve each gist
+    const url = 'https://api.github.com/gists/' + gistId
     const opts = {
       headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
     }
     console.log('fetching ', url, opts)
-    return fetch(url, opts)
-    .then(res => res.json())
-    .then(data => {
-      console.log('received data')
-      const obj = {
-        _id: docId,
-        owner: Meteor.userId(),
-        content: JSON.stringify(data)
-      }
-      Documents.upsert({ _id: docId }, obj)
-    })
+    fetch(url, opts)
+      .then(res => res.json())
+      .then(gist => {
+        console.log('received gist')
+        const obj = {
+          id: gist.id,
+          url: gist.url,
+          owner: gist.owner,
+          ownerId: Meteor.userId(),
+          files: Object.keys(gist.files),
+          created_at: gist.created_at,
+          updated_at: gist.updated_at
+        }
+        // save each gist into db
+        Gists.upsert({ id: gistId }, obj)
+        // save each file into db
+        Object.keys(gist.files).forEach(file => {
+          const fileObj = Object.assign(gist.files[file], { gistId: gistId })
+          console.log(fileObj)
+          Files.upsert({ filename: file }, fileObj)
+        })
+      })
   },
   addEditingUser: function(){
     var doc, user, eusers
