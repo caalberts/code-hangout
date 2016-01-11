@@ -3,9 +3,11 @@ Template.viewGist.helpers({
     return JSON.parse(this.content).description
   },
   files: function () {
-    console.log(JSON.parse(this.content).files)
-    const array = Object.keys(JSON.parse(this.content).files).map(filename => JSON.parse(this.content).files[filename])
-    return array
+    return Object.keys(JSON.parse(this.content).files)
+      .map(filename => Object.assign(
+        JSON.parse(this.content).files[filename],
+        { gistId: this._id }
+      ))
   }
 })
 
