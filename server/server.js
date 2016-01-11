@@ -29,9 +29,9 @@ Meteor.publish('userData', function(){
 })
 
 Meteor.methods({
-  retrieveGistFiles: function (gistId) {
+  retrieveGistFiles: function (id) {
     // retrieve each gist
-    const url = 'https://api.github.com/gists/' + gistId
+    const url = 'https://api.github.com/gists/' + id
     const opts = {
       headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
     }
@@ -41,8 +41,9 @@ Meteor.methods({
       .then(gist => {
         console.log('received gist')
         const obj = {
-          id: gist.id,
+          gistId: gist.id,
           url: gist.url,
+          description: gist.description,
           owner: gist.owner,
           ownerId: Meteor.userId(),
           files: Object.keys(gist.files),
@@ -50,15 +51,35 @@ Meteor.methods({
           updated_at: gist.updated_at
         }
         // save each gist into db
-        Gists.upsert({ id: gistId }, obj)
+        Gists.upsert({ gistId: id }, obj)
         // save each file into db
         Object.keys(gist.files).forEach(file => {
-          const fileObj = Object.assign(gist.files[file], { gistId: gistId })
-          console.log(fileObj)
-          Files.upsert({ filename: file }, fileObj)
+          const fileObj = Object.assign(gist.files[file], { gistId: id })
+          Files.upsert({
+            $and: [
+              { filename: file },
+              { gistId: id }
+            ]
+          }, fileObj)
         })
       })
   },
+
+  updateGist: function (gistId, filename, updateContent) {
+    const url = 'https://api.github.com/gists/' + gistId
+    const opts = {
+      method: 'PATCH',
+      headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
+      body: JSON.stringify(updateContent)
+    }
+    Files.update(
+      { filename: filename },
+      { $set: { content: updateContent.files[filename].content } }
+    )
+    fetch(url, opts).then(res => console.log('success'))
+      .catch(console.error)
+  },
+
   addEditingUser: function(){
     var doc, user, eusers
     doc = Documents.findOne()

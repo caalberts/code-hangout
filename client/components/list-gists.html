@@ -5,9 +5,7 @@
   </div>
   <ul>
     {{#each gists}}
-      <div class="gist">
-        {{> viewGist}}
-      </div>
+      <li><a href="/gist/{{gistId}}">{{description}}</a></li>
     {{/each}}
   </ul>
 </template>

@@ -1,6 +1,6 @@
 Template.listGists.helpers({
   gists: function () {
-    return Documents.find({ owner: Meteor.userId() })
+    return Gists.find({ ownerId: Meteor.userId() })
   }
 })
 
