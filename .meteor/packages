@@ -20,6 +20,11 @@ autopublish             # Publish all data to the clients (for prototyping)
 insecure                # Allow all DB writes from clients (for prototyping)
 accounts-ui
 accounts-github
+
+
+meteortoys:allthings
+mizzao:sharejs-codemirror
+twbs:bootstrap
 meteorhacks:npm
 
 

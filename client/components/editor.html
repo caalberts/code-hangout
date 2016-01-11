@@ -1,0 +1,21 @@
+<template name="editor">
+  {{> sharejsCM docid=docid onRender=config id="editor"}}
+</template>
+
+<template name="viewer">
+  <iframe id="viewer_iframe"></iframe>
+</template>
+
+<template name="editingUsers">
+  <div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Online Users</h3>
+  </div>
+  <div class="panel-body">
+    {{#each users}}
+      <span class="label label-primary">{{name}}</span>
+      {{lastEdit}}
+    {{/each}}
+  </div>
+</div>
+</template>
