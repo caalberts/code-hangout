@@ -6,20 +6,16 @@ Accounts.onLogin(function () {
   const header = {
     Authorization: 'token ' + Meteor.user().services.github.accessToken
   }
-  // console.log('fetching list of gists belonging to user and store in db');
   fetch(url, header)
     .then(res => res.json())
     .then(docs => {
       let userDocs = []
-      docs.forEach(doc => {
-        // console.log(doc)
-        userDocs.push(doc.id)
-        // Documents.insert(doc)
-      })
+      docs.forEach(doc => userDocs.push(doc.id))
       Meteor.users.update(
         { _id: Meteor.userId() },
         { $set: { docs: userDocs } }
       )
+      userDocs.forEach(doc => Meteor.call('createDocument', doc))
     })
 })
 
@@ -27,5 +23,26 @@ Meteor.publish('userData', function(){
   if (this.userId) {
     const user = Meteor.users.find(this.userId)
     return user
+  }
+})
+
+Meteor.methods({
+  createDocument: function (docId) {
+    const url = 'https://api.github.com/gists/' + docId
+    const opts = {
+      headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
+    }
+    console.log('fetching ', url, opts)
+    return fetch(url, opts)
+    .then(res => res.json())
+    .then(data => {
+      console.log('received data')
+      const obj = {
+        _id: docId,
+        owner: Meteor.userId(),
+        content: JSON.stringify(data)
+      }
+      Documents.upsert({ _id: docId }, obj)
+    })
   }
 })
