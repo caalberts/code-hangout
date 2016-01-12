@@ -1,6 +1,6 @@
 <template name="listCollaborators">
   <h3>Collaborators</h3>
   {{#each collaborators}}
-    <li class="collaborator">{{this}}</li>
+    <li class="collaborator">{{this}} <a class="remove-collaborator">&times;</a></li>
   {{/each}}
 </template>

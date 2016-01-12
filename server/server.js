@@ -56,10 +56,11 @@ Meteor.methods({
           updated_at: gist.updated_at
         }
         const localGist = Gists.find({ gistId: gist.id })
-        // Update local gist if origin gist is more recent
-        if ((Date.parse(originGist.updated_at) > Date.parse(localGist.updated_at))) {
-          Gists.upsert({ gistId: gist.id }, Object.assign({}, localGist, originGist))
-        }
+        Gists.upsert(
+          { gistId: gist.id },
+          (localGist) ? Object.assign({}, localGist, originGist) : originGist
+        )
+
         // update each file from origin into local
         filenames.forEach(file => {
           const fileObj = Object.assign(
@@ -98,10 +99,17 @@ Meteor.methods({
   },
 
   addCollaborator: function (gistId, username) {
-    console.log('adding', username, 'as collaborator')
     Gists.update(
       { gistId: gistId },
-      { $addToSet: { collaborators: username } })
+      { $addToSet: { collaborators: username } }
+    )
+  },
+
+  removeCollaborator: function (gistId, username) {
+    Gists.update(
+      { gistId: gistId },
+      { $pull: { collaborators: username } }
+    )
   },
 
   addEditingUser: function () {

@@ -27,5 +27,6 @@ Template.actions.events({
   'submit form': function (event) {
     event.preventDefault()
     Meteor.call('addCollaborator', this.gistId, event.target.searchUsers.value)
+    event.target.searchUsers.value = ''
   }
 })
