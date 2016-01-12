@@ -13,7 +13,7 @@
   "standard": {
     "globals": [
       "Meteor", "Template", "Accounts",
-      "Router", "Session", "Mongo",
+      "Router", "Session", "Mongo", "$",
       "Gists", "Files", "Documents", "EditingUsers"
     ]
   },
