@@ -2,6 +2,12 @@
   <h3>Actions</h3>
   <!-- if currentUser === owner -->
     <!-- show 'invite', 'save', 'publish' -->
+    <form id="invite" method="post">
+      <input type="text" name="username" value="" placeholder="@username">
+      <input type="submit" name="invite" value="Invite">
+    </form>
+    <button class="saveGist">Save</button>
+    <button class="publishGist">Publish</button>
   <!-- if currentUser === collaborator -->
     <!-- show 'save' -->
 </template>
