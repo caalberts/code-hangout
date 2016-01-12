@@ -1,5 +1,3 @@
-/* global Meteor, Accounts, Router, Template */
-
 Accounts.ui.config({
   requestPermissions: {
     github: ['user', 'repo', 'gist']

@@ -1,5 +1,3 @@
-/* global Meteor, Template, Documents, EditingUsers $ */
-
 Template.editor.helpers({
   filename:function(){
     var file = Files.findOne({ gistId: this.gistId })

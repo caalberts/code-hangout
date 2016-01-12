@@ -11,7 +11,11 @@
     "test": "standard"
   },
   "standard": {
-    "globals": [ "Meteor", "Template", "Documents", "Router" ]
+    "globals": [
+      "Meteor", "Template", "Accounts",
+      "Router", "Session", "Mongo", "$",
+      "Gists", "Files", "Documents", "EditingUsers"
+    ]
   },
   "repository": {
     "type": "git",

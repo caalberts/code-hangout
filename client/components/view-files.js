@@ -1,5 +1,3 @@
-/* global Meteor, Template, Files */
-
 Template.viewFiles.helpers({
   files: function () {
     return Files.find({ gistId: this.gistId })
