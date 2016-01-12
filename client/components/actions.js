@@ -15,7 +15,6 @@ Template.actions.helpers({
 
 Template.actions.events({
   'keyup .searchUser': _.debounce(function (event) {
-    console.dir(event)
     searchGithubUsers(event.target.value)
   }, 500),
   'submit form': function (event) {
@@ -23,7 +22,6 @@ Template.actions.events({
     searchGithubUsers(event.target.searchUsers.value)
   },
   'click .searchResult': function (event) {
-    console.log('user', event.target.textContent)
     Session.set('searchUsers', null)
   }
 })
