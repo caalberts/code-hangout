@@ -1,0 +1,34 @@
+{
+  "name": "code-hangout",
+  "version": "1.0.0",
+  "description": "real time gist collaboration",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "standard": "^5.4.1"
+  },
+  "scripts": {
+    "test": "standard"
+  },
+  "standard": {
+    "globals": [ "Meteor", "Template", "Documents", "Router" ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caalberts/code-hangout.git"
+  },
+  "keywords": [
+    "meteor",
+    "codemirror",
+    "sharejs",
+    "text",
+    "editor",
+    "collaboration"
+  ],
+  "author": "Albert Salim (@caalberts)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/caalberts/code-hangout/issues"
+  },
+  "homepage": "https://github.com/caalberts/code-hangout#readme"
+}

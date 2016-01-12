@@ -21,7 +21,7 @@ Accounts.onLogin(function () {
     })
 })
 
-Meteor.publish('userData', function(){
+Meteor.publish('userData', function () {
   if (this.userId) {
     const user = Meteor.users.find(this.userId)
     return user
@@ -80,17 +80,25 @@ Meteor.methods({
     fetch(url, opts).catch(console.error)
   },
 
-  addEditingUser: function(){
+  updateGistFile: function (gistId, filename, updateContent) {
+
+  },
+
+  publishGist: function (gistId) {
+
+  },
+
+  addEditingUser: function () {
     var doc, user, eusers
     doc = Documents.findOne()
-    if (!doc){
+    if (!doc) {
       return
     }
-    if (!this.userId){
+    if (!this.userId) {
       return
     }
     user = Meteor.user().profile
-    eusers = EditingUsers.findOne({docid:doc._id})
+    eusers = EditingUsers.findOne({ docid: doc._id })
     if (!eusers) {
       eusers = {
         docid: doc._id,
@@ -100,6 +108,6 @@ Meteor.methods({
     user.lastEdit = new Date()
     eusers.users[this.userId] = user
 
-    EditingUsers.upsert({_id:eusers._id}, eusers)
+    EditingUsers.upsert({ _id: eusers._id }, eusers)
   }
 })

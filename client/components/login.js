@@ -6,10 +6,10 @@ Accounts.ui.config({
 
 Accounts.onLogin(function () {
   Router.go('/profile')
-});
+})
 
 Template.login.helpers({
-  currentUser: function() {
+  currentUser: function () {
     return Meteor.user()
   }
 })

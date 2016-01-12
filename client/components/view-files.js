@@ -7,7 +7,7 @@ Template.viewFiles.helpers({
   }
 })
 Template.viewFiles.events({
-  'submit form': function(event) {
+  'submit form': function (event) {
     event.preventDefault()
     const updateContent = {
       files: {}
