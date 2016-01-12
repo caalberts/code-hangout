@@ -35,11 +35,9 @@ Meteor.methods({
     const opts = {
       headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
     }
-    console.log('fetching ', url, opts)
     fetch(url, opts)
       .then(res => res.json())
       .then(gist => {
-        console.log('received gist')
         const obj = {
           gistId: gist.id,
           url: gist.url,
@@ -79,8 +77,7 @@ Meteor.methods({
       { filename: filename },
       { $set: { content: updateContent.files[filename].content } }
     )
-    fetch(url, opts).then(res => console.log('success'))
-      .catch(console.error)
+    fetch(url, opts).catch(console.error)
   },
 
   addEditingUser: function(){
