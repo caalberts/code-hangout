@@ -1,22 +1,40 @@
 /* global Meteor, Template, Documents, EditingUsers $ */
 
 Template.editor.helpers({
+  filename:function(){
+    var file = Files.findOne({ gistId: this.gistId })
+    return file.filename
+  },
   docid: function () {
-    var doc = Documents.findOne()
-    if (doc) {
-      return doc._id
+    var file = Files.findOne({ gistId: this.gistId })
+    if (file) {
+      return file.gistId
     } else {
       return undefined
     }
   },
   config: function () {
+    var file = Files.findOne({ gistId: this.gistId })
+    var converter = new Showdown.converter();
+
     return function (editor) {
-      // console.log(editor)
+      editor.setOption("lineNumbers", true)
+      editor.setOption("theme", "dracula")
+      editor.setOption("value", file.content)
+
+      // editor.on('focus', function (cm_editor, info) {
+      //   editor.setOption("value", file.content)
+      // })
+
       editor.on('change', function (cm_editor, info) {
-        // console.log(cm_editor.getValue())
-        $('#viewer_iframe').contents().find('html').html(cm_editor.getValue())
+        var cmValue = cm_editor.getValue()
+        var cmMarkdown = converter.makeHtml(cmValue)
+        // $('#viewer_iframe').contents().find('html').html(cm_editor.getValue())
+        $('#viewer_iframe').contents().find('html').html(cmMarkdown)
         Meteor.call('addEditingUser')
+        editor.refresh()
       })
+
     }
   }
 })

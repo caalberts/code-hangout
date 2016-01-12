@@ -1,10 +1,14 @@
 <template name="editor">
   <h3>Editing {{filename}}</h3>
-  {{> sharejsCM docid=docid onRender=config id="editor"}}
+  <div class="col-sm-6">
+    {{> sharejsCM docid=docid onRender=config id="editor"}}
+  </div>
 </template>
 
 <template name="viewer">
-  <iframe id="viewer_iframe"></iframe>
+  <div class="col-sm-6">
+    <iframe id="viewer_iframe"></iframe>
+  </div>
 </template>
 
 <template name="editingUsers">

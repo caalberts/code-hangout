@@ -6,13 +6,19 @@
         <form id="{{filename}}-form">
 
           <textarea name="fileContent" id="{{filename}}-content" value="{{content}}" disabled={{disableEdit}}></textarea>
+
           <input type="submit" class="update" value="Update Gist"/>
         </form>
         <button class="view-editor">View content on editor</button>
       {{/each}}
     </ul>
   </div>
-  <div class="editor">
-    {{> editor}}
+  <div class="row">
+    <section class="editor">
+      {{> editor}}
+    </section>
+    <section class="viewer">
+      {{> viewer}}
+    </section>
   </div>
 </template>
