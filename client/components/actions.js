@@ -14,14 +14,18 @@ Template.actions.helpers({
 })
 
 Template.actions.events({
+  // search github users
   'keyup .searchUser': _.debounce(function (event) {
     searchGithubUsers(event.target.value)
   }, 500),
+  // add github user to form
+  'click .searchResult': function (event) {
+    document.querySelector('.searchUser').textContent = event.target.textContent
+    Session.set('searchUsers', null)
+  },
+  // add collaborator to the gist
   'submit form': function (event) {
     event.preventDefault()
-    searchGithubUsers(event.target.searchUsers.value)
-  },
-  'click .searchResult': function (event) {
-    Session.set('searchUsers', null)
+    Meteor.call('addCollaborator', this.gistId, event.target.searchUsers.value)
   }
 })

@@ -1,6 +1,7 @@
 Template.listCollaborators.helpers({
   collaborators: function () {
-    const gist = Gists.find({ gistId: this.gistId })
+    console.log(this.gistId)
+    const gist = Gists.findOne({ gistId: this.gistId })
     return gist.collaborators
   }
 })

@@ -88,6 +88,13 @@ Meteor.methods({
 
   },
 
+  addCollaborator: function (gistId, username) {
+    console.log('adding', username, 'as collaborator')
+    Gists.update(
+      { gistId: gistId },
+      { $addToSet: { collaborators: username } })
+  },
+
   addEditingUser: function () {
     var doc, user, eusers
     doc = Documents.findOne()
