@@ -54,7 +54,10 @@ Meteor.methods({
         Gists.upsert({ gistId: id }, obj)
         // save each file into db
         Object.keys(gist.files).forEach(file => {
-          const fileObj = Object.assign(gist.files[file], { gistId: id })
+          const fileObj = Object.assign(gist.files[file], {
+            gistId: id,
+            ownerId: Meteor.userId()
+          })
           Files.upsert({
             $and: [
               { filename: file },

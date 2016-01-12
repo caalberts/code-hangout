@@ -2,6 +2,9 @@ Template.viewFiles.helpers({
   files: function () {
     console.dir('helper this', this.gistId)
     return Files.find({ gistId: this.gistId })
+  },
+  disableEdit: function () {
+    return !(this.ownerId === Meteor.userId())
   }
 })
 Template.viewFiles.events({

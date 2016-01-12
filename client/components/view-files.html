@@ -6,7 +6,7 @@
     {{#each files}}
     <form id="{{filename}}-form">
       <h3 name="filename">{{filename}}</h3>
-      <textarea name="fileContent" id="{{filename}}-content" value="{{content}}"></textarea>
+      <textarea name="fileContent" id="{{filename}}-content" value="{{content}}" disabled={{disableEdit}}></textarea>
       <input type="submit" class="update" value="Update Gist"/>
     </form>
     {{/each}}
