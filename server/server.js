@@ -38,29 +38,32 @@ Meteor.methods({
     fetch(url, opts)
       .then(res => res.json())
       .then(gist => {
-        const obj = {
+        const filenames = Object.keys(gist.files)
+        const originGist = {
           gistId: gist.id,
           url: gist.url,
           description: gist.description,
           owner: gist.owner,
           ownerId: Meteor.userId(),
-          files: Object.keys(gist.files),
+          files: filenames,
           created_at: gist.created_at,
           updated_at: gist.updated_at
         }
-        // save each gist into db
-        Gists.upsert({ gistId: id }, obj)
-        // save each file into db
-        Object.keys(gist.files).forEach(file => {
-          const fileObj = Object.assign(gist.files[file], {
-            gistId: id,
-            ownerId: Meteor.userId()
-          })
+        const localGist = Gists.find({ gistId: gist.id })
+        // Update local gist if origin gist is more recent
+        if ((Date.parse(originGist.updated_at) > Date.parse(localGist.updated_at))) {
+          Gists.upsert({ gistId: gist.id }, Object.assign({}, localGist, originGist))
+        }
+        // update each file from origin into local
+        filenames.forEach(file => {
+          const fileObj = Object.assign(
+            {}, gist.files[file],
+            {
+              gistId: id,
+              ownerId: Meteor.userId()
+            })
           Files.upsert({
-            $and: [
-              { filename: file },
-              { gistId: id }
-            ]
+            $and: [{ filename: file }, { gistId: id }]
           }, fileObj)
         })
       })
