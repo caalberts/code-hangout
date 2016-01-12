@@ -20,7 +20,7 @@ Template.actions.events({
   }, 500),
   // add github user to form
   'click .searchResult': function (event) {
-    document.querySelector('.searchUser').textContent = event.target.textContent
+    document.querySelector('.searchUser').value = event.target.textContent
     Session.set('searchUsers', null)
   },
   // add collaborator to the gist
