@@ -1,11 +1,12 @@
 <template name="listGists">
-  <h1>{{currentUser.profile.name}}'s gists:</h1>
-  <div id="name">
-    {{userData}}
-  </div>
-  <ul>
-    {{#each gists}}
-      <li><a href="/gist/{{gistId}}">{{description}}</a></li>
-    {{/each}}
-  </ul>
+  {{#if currentUser}}
+    <h1><span class="github-username">{{currentUser.services.github.username}}</span>'s gists:</h1>
+    <ul>
+      {{#each gists}}
+        <li><a href="/gist/{{gistId}}">{{description}}</a></li>
+      {{/each}}
+    </ul>
+  {{else}}
+    {{> callToLogin}}
+  {{/if}}
 </template>

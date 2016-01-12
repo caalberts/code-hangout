@@ -1,5 +1,12 @@
 <template name="viewGist">
+  {{#unless currentUser}}
+    {{> callToLogin}}
+  {{/unless}}
   <h1>{{description}}</h1>
   <h2>Files:</h2>
   {{> viewFiles}}
+  {{> listCollaborators}}
+  {{#if currentUser}}
+    {{> actions}}
+  {{/if}}
 </template>

@@ -1,11 +1,17 @@
+/* global Meteor, Accounts, Router, Template */
+
 Accounts.ui.config({
   requestPermissions: {
     github: ['user', 'repo', 'gist']
   }
 })
 
+Accounts.onLogin(function () {
+  Router.go('/profile')
+})
+
 Template.login.helpers({
-  currentUser: function() {
+  currentUser: function () {
     return Meteor.user()
   }
 })

@@ -1,3 +1,5 @@
+/* global Meteor, Accounts, Gists, Files, Documents, EditingUsers */
+
 const fetch = Meteor.npmRequire('node-fetch')
 
 // retrieve list of user's gists upon Login
@@ -21,7 +23,7 @@ Accounts.onLogin(function () {
     })
 })
 
-Meteor.publish('userData', function(){
+Meteor.publish('userData', function () {
   if (this.userId) {
     const user = Meteor.users.find(this.userId)
     return user
@@ -35,11 +37,9 @@ Meteor.methods({
     const opts = {
       headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
     }
-    console.log('fetching ', url, opts)
     fetch(url, opts)
       .then(res => res.json())
       .then(gist => {
-        console.log('received gist')
         const obj = {
           gistId: gist.id,
           url: gist.url,
@@ -54,7 +54,10 @@ Meteor.methods({
         Gists.upsert({ gistId: id }, obj)
         // save each file into db
         Object.keys(gist.files).forEach(file => {
-          const fileObj = Object.assign(gist.files[file], { gistId: id })
+          const fileObj = Object.assign(gist.files[file], {
+            gistId: id,
+            ownerId: Meteor.userId()
+          })
           Files.upsert({
             $and: [
               { filename: file },
@@ -76,21 +79,28 @@ Meteor.methods({
       { filename: filename },
       { $set: { content: updateContent.files[filename].content } }
     )
-    fetch(url, opts).then(res => console.log('success'))
-      .catch(console.error)
+    fetch(url, opts).catch(console.error)
   },
 
-  addEditingUser: function(){
+  updateGistFile: function (gistId, filename, updateContent) {
+
+  },
+
+  publishGist: function (gistId) {
+
+  },
+
+  addEditingUser: function () {
     var doc, user, eusers
     doc = Documents.findOne()
-    if (!doc){
+    if (!doc) {
       return
     }
-    if (!this.userId){
+    if (!this.userId) {
       return
     }
     user = Meteor.user().profile
-    eusers = EditingUsers.findOne({docid:doc._id})
+    eusers = EditingUsers.findOne({ docid: doc._id })
     if (!eusers) {
       eusers = {
         docid: doc._id,
@@ -100,6 +110,6 @@ Meteor.methods({
     user.lastEdit = new Date()
     eusers.users[this.userId] = user
 
-    EditingUsers.upsert({_id:eusers._id}, eusers)
+    EditingUsers.upsert({ _id: eusers._id }, eusers)
   }
 })
