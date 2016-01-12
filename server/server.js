@@ -45,7 +45,7 @@ Meteor.methods({
       .then(res => res.json())
       .then(gist => {
         const filenames = Object.keys(gist.files)
-        const originGist = {
+        const newGist = {
           gistId: gist.id,
           url: gist.url,
           description: gist.description,
@@ -55,11 +55,9 @@ Meteor.methods({
           created_at: gist.created_at,
           updated_at: gist.updated_at
         }
-        const localGist = Gists.find({ gistId: gist.id })
-        Gists.upsert(
-          { gistId: gist.id },
-          (localGist) ? Object.assign({}, localGist, originGist) : originGist
-        )
+        const oldGist = Gists.findOne({ gistId: gist.id })
+        const updatedGist = oldGist ? Object.assign({}, oldGist, newGist) : newGist
+        Gists.upsert({ gistId: gist.id }, updatedGist)
 
         // update each file from origin into local
         filenames.forEach(file => {
