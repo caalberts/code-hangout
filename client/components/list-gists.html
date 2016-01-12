@@ -1,9 +1,6 @@
 <template name="listGists">
   {{#if currentUser}}
-    <h1>{{currentUser.profile.name}}'s gists:</h1>
-    <div id="name">
-      {{userData}}
-    </div>
+    <h1><span class="github-username">{{currentUser.services.github.username}}</span>'s gists:</h1>
     <ul>
       {{#each gists}}
         <li><a href="/gist/{{gistId}}">{{description}}</a></li>
