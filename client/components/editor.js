@@ -1,5 +1,3 @@
-/* global Meteor, Template, Documents, EditingUsers $ */
-
 Template.editor.helpers({
   docid: function () {
     var doc = Documents.findOne()

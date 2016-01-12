@@ -3,8 +3,13 @@
   <!-- if currentUser === owner -->
     <!-- show 'invite', 'save', 'publish' -->
     <form id="invite" method="post">
-      <input type="text" name="username" value="" placeholder="@username">
+      <input class="searchUser" type="text" name="searchUsers" value="" placeholder="@username">
       <input type="submit" name="invite" value="Invite">
+      <div>
+        {{#each results}}
+        <a class="searchResult">{{this}}</a>
+        {{/each}}
+      </div>
     </form>
     <button class="saveGist">Save</button>
     <button class="publishGist">Publish</button>

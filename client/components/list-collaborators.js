@@ -1,5 +1,3 @@
-/* global Template, Gists */
-
 Template.listCollaborators.helpers({
   collaborators: function () {
     const gist = Gists.find({ gistId: this.gistId })

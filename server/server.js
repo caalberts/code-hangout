@@ -1,12 +1,10 @@
-/* global Meteor, Accounts, Gists, Files, Documents, EditingUsers */
-
 const fetch = Meteor.npmRequire('node-fetch')
 
 // retrieve list of user's gists upon Login
 Accounts.onLogin(function () {
   const url = 'https://api.github.com/users/' + Meteor.user().services.github.username + '/gists'
   const header = {
-    Authorization: 'token ' + Meteor.user().services.github.accessToken
+    headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
   }
   fetch(url, header)
     .then(res => res.json())
