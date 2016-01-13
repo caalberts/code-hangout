@@ -21,11 +21,17 @@ Accounts.onLogin(function () {
     })
 })
 
-Meteor.publish('userData', function () {
+Meteor.publish('user', function () {
   if (this.userId) {
     const user = Meteor.users.find(this.userId)
     return user
   }
+})
+Meteor.publish('gists', function () {
+  return Gists.find()
+})
+Meteor.publish('files', function () {
+  return Files.find()
 })
 
 Meteor.methods({
@@ -35,11 +41,11 @@ Meteor.methods({
     const opts = {
       headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
     }
-    fetch(url, opts)
+    return fetch(url, opts)
       .then(res => res.json())
       .then(gist => {
         const filenames = Object.keys(gist.files)
-        const originGist = {
+        const newGist = {
           gistId: gist.id,
           url: gist.url,
           description: gist.description,
@@ -49,11 +55,10 @@ Meteor.methods({
           created_at: gist.created_at,
           updated_at: gist.updated_at
         }
-        const localGist = Gists.find({ gistId: gist.id })
-        // Update local gist if origin gist is more recent
-        if ((Date.parse(originGist.updated_at) > Date.parse(localGist.updated_at))) {
-          Gists.upsert({ gistId: gist.id }, Object.assign({}, localGist, originGist))
-        }
+        const oldGist = Gists.findOne({ gistId: gist.id })
+        const updatedGist = oldGist ? Object.assign({}, oldGist, newGist) : newGist
+        Gists.upsert({ gistId: gist.id }, updatedGist)
+
         // update each file from origin into local
         filenames.forEach(file => {
           const fileObj = Object.assign(
@@ -66,6 +71,7 @@ Meteor.methods({
             $and: [{ filename: file }, { gistId: id }]
           }, fileObj)
         })
+        return gist.id
       })
   },
 
@@ -92,10 +98,17 @@ Meteor.methods({
   },
 
   addCollaborator: function (gistId, username) {
-    console.log('adding', username, 'as collaborator')
     Gists.update(
       { gistId: gistId },
-      { $addToSet: { collaborators: username } })
+      { $addToSet: { collaborators: username } }
+    )
+  },
+
+  removeCollaborator: function (gistId, username) {
+    Gists.update(
+      { gistId: gistId },
+      { $pull: { collaborators: username } }
+    )
   },
 
   addEditingUser: function () {

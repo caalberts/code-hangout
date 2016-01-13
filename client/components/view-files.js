@@ -1,3 +1,5 @@
+Meteor.subscribe('files')
+
 Template.viewFiles.helpers({
   files: function () {
     return Files.find({ gistId: this.gistId })
