@@ -41,7 +41,7 @@ Meteor.methods({
     const opts = {
       headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
     }
-    fetch(url, opts)
+    return fetch(url, opts)
       .then(res => res.json())
       .then(gist => {
         const filenames = Object.keys(gist.files)
@@ -71,6 +71,7 @@ Meteor.methods({
             $and: [{ filename: file }, { gistId: id }]
           }, fileObj)
         })
+        return gist.id
       })
   },
 
