@@ -1,60 +1,56 @@
+/* global _ */
+
 Template.editor.helpers({
-  filename:function(){
-    var file = Files.findOne({ gistId: this.gistId })
-    return file.filename
+  fileId: function () {
+    return Session.get('fileId')
   },
-  docid: function () {
-    var file = Files.findOne({ gistId: this.gistId })
-    if (file) {
-      return file.gistId
-    } else {
-      return undefined
-    }
+  filename: function () {
+    return Files.findOne({ _id: Session.get('fileId') }).filename
   },
   config: function () {
-    var file = Files.findOne({ gistId: this.gistId })
-    var converter = new Showdown.converter();
+    return function (cm) {
+      const file = Files.findOne({ _id: Session.get('fileId') })
 
-    return function (editor) {
-      editor.setOption("lineNumbers", true)
-      editor.setOption("theme", "dracula")
-      editor.setOption("value", file.content)
+      cm.setOption('lineNumbers', true)
 
-      // editor.on('focus', function (cm_editor, info) {
-      //   editor.setOption("value", file.content)
-      // })
+      // set content of the editor to the latest content from file object
+      cm.doc.setValue(file.content)
 
-      editor.on('change', function (cm_editor, info) {
-        var cmValue = cm_editor.getValue()
-        var cmMarkdown = converter.makeHtml(cmValue)
-        // $('#viewer_iframe').contents().find('html').html(cm_editor.getValue())
-        $('#viewer_iframe').contents().find('html').html(cmMarkdown)
-        Meteor.call('addEditingUser')
-        editor.refresh()
-      })
-
+      // periodically update file object when there is a change in the editor
+      cm.doc.on('change', _.debounce(function (editor) {
+        Files.update(
+          { _id: file._id },
+          { $set: { content: editor.getValue() } }
+        )
+      }, 500))
+    }
+  },
+  setContent: function () {
+    return function (cm) {
+      const file = Files.findOne({ _id: Session.get('fileId') })
+      cm.doc.setValue(file.content)
     }
   }
 })
-
-Template.editingUsers.helpers({
-  users: function () {
-    var doc, eusers, users
-    doc = Documents.findOne()
-    if (!doc) {
-      return
-    }
-    eusers = EditingUsers.findOne()
-    if (!eusers) {
-      return
-    }
-
-    users = []
-    var i = 0
-    for (var user_id in eusers.users) {
-      users[i] = eusers.users[user_id]
-      i++
-    }
-    return users
-  }
-})
+//
+// Template.editingUsers.helpers({
+//   users: function () {
+//     var doc, eusers, users
+//     doc = Documents.findOne()
+//     if (!doc) {
+//       return
+//     }
+//     eusers = EditingUsers.findOne()
+//     if (!eusers) {
+//       return
+//     }
+//
+//     users = []
+//     var i = 0
+//     for (var user_id in eusers.users) {
+//       users[i] = eusers.users[user_id]
+//       i++
+//     }
+//     return users
+//   }
+// })
