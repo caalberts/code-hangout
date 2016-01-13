@@ -21,10 +21,9 @@ insecure                # Allow all DB writes from clients (for prototyping)
 accounts-ui
 accounts-github
 
-
+fortawesome:fontawesome
 meteortoys:allthings
 mizzao:sharejs-codemirror
-twbs:bootstrap
 meteorhacks:npm
 
 
@@ -32,3 +31,4 @@ npm-container
 iron:router
 markdown
 underscore
+styles
