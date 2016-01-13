@@ -21,19 +21,6 @@ Accounts.onLogin(function () {
     })
 })
 
-Meteor.publish('user', function () {
-  if (this.userId) {
-    const user = Meteor.users.find(this.userId)
-    return user
-  }
-})
-Meteor.publish('gists', function () {
-  return Gists.find()
-})
-Meteor.publish('files', function () {
-  return Files.find()
-})
-
 Meteor.methods({
   retrieveGistFiles: function (id) {
     // retrieve each gist

@@ -1,5 +1,3 @@
-Meteor.subscribe('files')
-
 Template.fileList.onCreated(function () {
   const file = Files.findOne({ gistId: Session.get('gistId') })
   Session.set('fileId', file._id)
