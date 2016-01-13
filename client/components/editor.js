@@ -18,10 +18,7 @@ Template.editor.helpers({
 
       // periodically update file object when there is a change in the editor
       cm.doc.on('change', _.debounce(function (editor) {
-        Files.update(
-          { _id: file._id },
-          { $set: { content: editor.getValue() } }
-        )
+        Meteor.call('updateFile', file._id, editor.getValue())
       }, 500))
     }
   },

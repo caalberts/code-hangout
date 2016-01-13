@@ -76,8 +76,11 @@ Meteor.methods({
     fetch(url, opts).catch(console.error)
   },
 
-  updateGistFile: function (gistId, filename, updateContent) {
-
+  updateFile: function (fileId, newContent) {
+    Files.update(
+      { _id: fileId },
+      { $set: { content: newContent } }
+    )
   },
 
   publishGist: function (gistId, fileIds) { // TODO will replace updateGist()
