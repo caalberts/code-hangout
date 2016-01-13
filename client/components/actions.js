@@ -1,12 +1,5 @@
 /* global _ */
 
-function searchGithubUsers (string) {
-  const url = 'https://api.github.com/search/users?q=' + string + '+in:login'
-  window.fetch(url)
-    .then(res => res.json())
-    .then(data => Session.set('searchUsers', data.items.map(item => item.login)))
-}
-
 Template.actions.helpers({
   results: function () {
     return Session.get('searchUsers')
@@ -14,13 +7,19 @@ Template.actions.helpers({
 })
 
 Template.actions.events({
+  // publish gist
+  'click .publish-gist': function (argument) {
+    // console.log(this.gistId)
+    Meteor.call('publishGist', this.gistId)
+  },
+
   // search github users
-  'keyup .searchUser': _.debounce(function (event) {
+  'keyup .search-user': _.debounce(function (event) {
     searchGithubUsers(event.target.value)
   }, 500),
   // add github user to form
-  'click .searchResult': function (event) {
-    document.querySelector('.searchUser').value = event.target.textContent
+  'click .search-result': function (event) {
+    document.querySelector('.search-user').value = event.target.textContent
     Session.set('searchUsers', null)
   },
   // add collaborator to the gist
@@ -30,3 +29,10 @@ Template.actions.events({
     event.target.searchUsers.value = ''
   }
 })
+
+function searchGithubUsers (string) {
+  const url = 'https://api.github.com/search/users?q=' + string + '+in:login'
+  window.fetch(url)
+    .then(res => res.json())
+    .then(data => Session.set('searchUsers', data.items.map(item => item.login)))
+}
