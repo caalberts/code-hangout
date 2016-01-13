@@ -1,12 +1,21 @@
 <template name="viewGist">
-  {{#unless currentUser}}
-    {{> callToLogin}}
-  {{/unless}}
-  <h1>{{description}}</h1>
-  <h2>Files:</h2>
-  {{> viewFiles}}
-  {{> collaborators}}
-  {{#if currentUser}}
-    {{> actions}}
-  {{/if}}
+  <div class="container-fluid">
+    <ol class="breadcrumb">
+      <li><a href="{{pathFor route='profile'}}">Dashboard</a></li>
+      <li class="active">Edit Gist</li>
+    </ol>
+
+    {{#unless currentUser}}
+      {{> callToLogin}}
+    {{/unless}}
+
+    <span class="sub">Currently editing</span>
+    <h3>{{description}}</h3>
+    <h2>Files:</h2>
+    {{> viewFiles}}
+    {{> collaborators}}
+    {{#if currentUser}}
+      {{> actions}}
+    {{/if}}
+  </div>
 </template>
