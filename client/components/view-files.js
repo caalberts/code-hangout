@@ -17,8 +17,8 @@ Template.fileList.events({
     event.preventDefault()
 
     const newFile = {
-      filename: 'new-file-from-menu.txt',
-      content: 'I clicked a button to create a file',
+      filename: 'untitled',
+      content: 'new content',
       gistId: this.gistId,
       ownerId: Meteor.userId()
     }
