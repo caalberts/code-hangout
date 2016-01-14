@@ -155,28 +155,8 @@ Meteor.methods({
     )
   },
 
-  publishGist: function (gistId, fileIds) { // TODO will replace updateGist()
-    const updateContent = {
-      files: {}
-    }
+  deleteFile: function () { // TODO add feature to delete file
 
-    // consolidate files
-    Files.find({ gistId: gistId })
-      .forEach(file => {
-        updateContent.files[file.filename] = { content: file.content }
-      })
-
-    // send update to github
-    const url = 'https://api.github.com/gists/' + gistId
-    const opts = {
-      method: 'PATCH',
-      headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
-      body: JSON.stringify(updateContent)
-    }
-    fetch(url, opts).catch(console.error)
-
-    // synchronize with github
-    Meteor.call('retrieveGistFiles', gistId)
   },
 
   addCollaborator: function (gistId, username) {
