@@ -18,7 +18,8 @@ Package.onUse(function(api) {
     'bootstrap.min.css',
     'jasny-bootstrap.min.js',
     'jasny-bootstrap.min.css',
-    'style.css'
+    'style.css',
+    'preview-style.css'
 ], 'client');
 });
 

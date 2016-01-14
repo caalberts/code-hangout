@@ -264,3 +264,19 @@ a:hover {
 .col-sm-3:nth-child(4n+1) {
 	clear: left;
 }
+
+/* Code Editor */
+#preview {
+	width: 100%;
+	max-height:400px;
+	overflow-x: hidden;
+	word-wrap: break-word;
+}
+.files-subtitle {
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  display: block;
+  margin-top: 15px;
+  letter-spacing: .3px;
+}
