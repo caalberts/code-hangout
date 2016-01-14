@@ -20,19 +20,26 @@ Template.actions.events({
   },
 
   // search github users
-  'keyup .search-user': _.debounce(function (event) {
+  'keyup .search-githublogin': _.debounce(function (event) {
     searchGithubUsers(event.target.value)
-  }, 500),
+  }, 300),
   // add github user to form
   'click .search-result': function (event) {
-    document.querySelector('.search-user').value = event.target.textContent
+    document.querySelector('.search-githublogin').value = event.target.textContent
+    document.querySelector('.search-githubid').value = event.target.getAttribute('data-github-id')
     Session.set('searchUsers', null)
   },
   // add collaborator to the gist
   'submit form': function (event) {
     event.preventDefault()
-    Meteor.call('addCollaborator', this.gistId, event.target.searchUsers.value)
-    event.target.searchUsers.value = ''
+    Meteor.call(
+      'addCollaborator',
+      this.gistId,
+      event.target.githubLogin.value,
+      event.target.githubId.value
+    )
+    document.querySelector('.search-githublogin').value = ''
+    document.querySelector('.search-githubid').value = ''
   }
 })
 
@@ -40,5 +47,15 @@ function searchGithubUsers (string) {
   const url = 'https://api.github.com/search/users?q=' + string + '+in:login'
   window.fetch(url)
     .then(res => res.json())
-    .then(data => Session.set('searchUsers', data.items.map(item => item.login)))
+    .then(data => {
+      Session.set(
+        'searchUsers',
+        data.items.map(user => {
+          return {
+            githubLogin: user.login,
+            githubId: user.id
+          }
+        })
+      )
+    })
 }

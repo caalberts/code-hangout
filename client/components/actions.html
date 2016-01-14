@@ -5,11 +5,12 @@
     <!-- show 'invite', 'save', 'publish' -->
     <h4>Invite collaborators</h4>
     <form id="invite" method="post">
-      <input class="search-user" type="text" name="searchUsers" value="" placeholder="@githubusername">
+      <input class="search-githublogin" type="text" name="githubLogin" value="" placeholder="@githubusername">
+      <input class="search-githubid" type="hidden" name="githubId" value="">
       <input class="btn btn-info" type="submit" name="invite" value="Invite">
       <div>
         {{#each results}}
-        <a class="search-result">{{this}}</a>
+        <a class="search-result" data-github-id="{{this.githubId}}">{{this.githubLogin}}</a>
         {{/each}}
       </div>
     </form>

@@ -7,6 +7,6 @@ Template.collaborators.helpers({
 
 Template.collaborators.events({
   'click .remove-collaborator': function () {
-    Meteor.call('removeCollaborator', Session.get('gistId'), this.toString())
+    Meteor.call('removeCollaborator', Session.get('gistId'), this)
   }
 })

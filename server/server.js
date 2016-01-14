@@ -207,17 +207,23 @@ Meteor.methods({
       .catch(console.error)
   },
 
-  addCollaborator: function (gistId, username) {
+  addCollaborator: function (gistId, githubLogin, githubId) {
+    const update = {
+      collaborators: {
+        githubId: githubId,
+        githubLogin: githubLogin
+      }
+    }
     Gists.update(
       { gistId: gistId },
-      { $addToSet: { collaborators: username } }
+      { $addToSet: update }
     )
   },
 
-  removeCollaborator: function (gistId, username) {
+  removeCollaborator: function (gistId, user) {
     Gists.update(
       { gistId: gistId },
-      { $pull: { collaborators: username } }
+      { $pull: { collaborators: user } }
     )
   }
 
