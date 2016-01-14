@@ -1,11 +1,23 @@
 <template name="editor">
 {{#if fileId}}
-  {{#if currentUser}}
-    <span class="files-subtitle">Currently editing</span>
-  {{/if}}
-  <h3 class="files-filename">
-    <span class="file-name" contentEditable="{{owner}}">{{filename}}</span>
-  </h3>
+
+  <div class="edit-gist-subtitle">
+    {{#if currentUser}}
+      <span class="files-subtitle">Currently editing</span>
+    {{/if}}
+    <h3 class="files-filename">
+      {{#if currentUser}}
+        <span class="file-name" contentEditable="{{owner}}" data-toggle="tooltip" data-placement="top" title="Rename this gist">{{filename}}</span>
+      {{else}}
+        <span class="file-name" contentEditable="{{owner}}">{{filename}}</span>
+      {{/if}}
+    </h3>
+
+    <button type="button" class="btn btn-primary btn-lg settings-btn" data-toggle="modal" data-target="#myModal">
+      View Settings
+    </button>
+  </div>
+
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-6 nopadding">
@@ -17,7 +29,9 @@
     </div>
   </div>
 {{else}}
-  <p>Please create a new file</p>
+  <div class="alert alert-danger" role="alert">
+    Please create a new file.
+  </div>
 {{/if}}
 </template>
 

@@ -1,5 +1,5 @@
 Template.viewGist.onCreated(function () {
-  console.log(this)
+  // console.log(this)
   Session.set('gistOwnerId', this.data.ownerId)
   Session.set('gistCollaborators', this.data.collaborators)
 })

@@ -3,6 +3,9 @@
 Template.editor.events({
   'click #preview': function (event) {
     return false
+  },
+  "mouseover .file-name": function(event, template) {
+    $('[data-toggle="tooltip"]').tooltip()
   }
 })
 
@@ -10,7 +13,6 @@ Template.editor.helpers({
   owner: function () {
     return (Meteor.userId() && (Meteor.userId() === Session.get('gistOwnerId')))
   },
-
   fileId: function () {
     return Session.get('fileId')
   },
@@ -26,15 +28,18 @@ Template.editor.helpers({
       cm.setOption('lineNumbers', true)
       cm.setOption('lineWrapping', true)
 
-      // if (!Meteor.userId()) {
-      //   cm.setOption('readOnly', true)
-      // } else {
-      //   const collaboratorIds = Session.get('gistCollaborators').map(collaborator => collaborator.githubId)
-      //   const collaboratorIndex = collaboratorIds.indexOf(Meteor.user().services.github.id)
-      //   if ((collaboratorIndex < 0) && (Meteor.userId() !== Session.get('gistOwnerId'))) {
-      //     cm.setOption('readOnly', true)
-      //   }
-      // }
+      if (!Meteor.userId()) {
+        cm.setOption('readOnly', true)
+      } else {
+        const collaborators = Session.get('gistCollaborators')
+        if (collaborators) {
+          const collaboratorIds = collaborators.map(collaborator => collaborator.githubId)
+          const collaboratorIndex = collaboratorIds.indexOf(Meteor.user().services.github.id)
+          if ((collaboratorIndex < 0) && (Meteor.userId() !== Session.get('gistOwnerId'))) {
+            cm.setOption('readOnly', true)
+          }
+        }
+      }
 
       // periodically update file object when there is a change in the editor
       cm.doc.on('change', _.debounce(function (editor) {

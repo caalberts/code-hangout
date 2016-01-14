@@ -1,6 +1,27 @@
 <template name="collaborators">
-  <h3>Collaborators</h3>
-  {{#each collaborators}}
-    <li class="collaborator">{{this.githubLogin}}{{#if currentUser}} <a class="remove-collaborator">&times;</a>{{/if}}</li>
-  {{/each}}
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Username</th>
+          {{#if currentUser}}
+          <th style="width:20%;text-align:center;">Remove User</th>
+          {{/if}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each collaborators}}
+        <tr>
+          <td>{{this.githubLogin}}</td>
+          {{#if currentUser}}
+          <td>
+            <a class="btn btn-danger remove-collaborator" href="#" role="button">Remove</a>
+          </td>
+          {{/if}}
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
 </template>

@@ -213,7 +213,6 @@ a:hover {
 .wrapper h3{
 	padding-bottom: 5px;
 	margin-bottom: 10px;
-	border-bottom: 1px solid #ddd;
 }
 .list-stats {
 	padding: 25px;
@@ -237,6 +236,7 @@ a:hover {
 .gist-container {
 	background: #fff;
 	padding: 15px 0;
+	margin-bottom: 15px;
 }
 .gist-container ul li {
 	margin-bottom: 15px;
@@ -255,10 +255,10 @@ a:hover {
 .gist-container ul li a:hover {
 	background: #204e75;
 }
-.gist-container ul li:first-child a {
+.gist-container ul li a.createGist {
 	background: #75ba50;
 }
-.gist-container ul li:first-child a:hover {
+.gist-container ul li a.createGist:hover {
 	background: #4f8233;
 }
 .gist-container ul li a:after {
@@ -272,10 +272,10 @@ a:hover {
   color: rgba(255, 255, 255, 0.1);
 }
 @media (max-width: 767px) {
-	.gist-container ul li a{
+	.gist-container ul li a {
 		min-height: inherit;
 	}
-	.gist-container ul li a:after{
+	.gist-container ul li a:after {
 		content: none;
 	}
 }
@@ -298,16 +298,34 @@ a:hover {
 	border: 1px solid #ddd;
 }
 @media (max-width: 767px) {
-	.CodeMirror{
+	.CodeMirror {
 		display: none;
 	}
+}
+.edit-gist-subtitle {
+  border-top: 1px solid #ddd;
+  /*border-bottom: 1px solid #ddd;*/
+	position: relative;
+	padding: 10px 0;
+}
+.settings-btn {
+	position: absolute;
+	top: 20px;
+	right: 0;
+	font-size: 15px;
+	letter-spacing: .5px;
+}
+.settings-btn:before {
+	content: '\f013';
+	font-family: 'FontAwesome';
+	display: inline-block;
+	padding-right:3px;
 }
 .files-subtitle {
   text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
   font-size: 11px;
-  display: block;
-  margin-top: 10px;
+  display: inline-block;
 	margin-bottom:5px;
   letter-spacing: 1px;
 	color:#bcbcbc;
@@ -315,18 +333,43 @@ a:hover {
 .files-filename {
 	font-size: 1.2em;
 }
-.files-filename span{
+.files-filename span {
 	vertical-align: middle;
 }
 .files-filename:before {
 	content: "\f0f6";
-	width: 25px;
-	margin-right:5px;
+	width: 18px;
+	margin-right:4px;
 	font-size: 16px;
 }
-.gist-description:hover{
+.gist-description:hover, .file-name:hover {
 	background: #f9f9f9;
 	border-radius: 3px;
 	border: 1px solid rgba(0,0,0,0.1);
 	box-sizing: border-box;
+}
+
+/* Gist Menu */
+.nav-tabs>li {
+	width: 50%;
+	text-align: center;
+}
+.nav-tabs li:first-child a:before,
+.nav-tabs li:last-child a:before {
+	display: inline-block;
+	font-family: "FontAwesome";
+	position: relative;
+	padding-right: 5px;
+}
+.nav-tabs li:first-child a:before {
+	content: "\f0c5";
+}
+.nav-tabs li:last-child a:before {
+	content: "\f007";
+}
+.table-responsive table{
+	margin-top: 10px;
+}
+.table-responsive table tbody tr td:last-child{
+	text-align: center;
 }
