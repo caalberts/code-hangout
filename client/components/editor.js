@@ -13,9 +13,6 @@ Template.editor.helpers({
 
       cm.setOption('lineNumbers', true)
 
-      // set content of the editor to the latest content from file object
-      cm.doc.setValue(file.content)
-
       // periodically update file object when there is a change in the editor
       cm.doc.on('change', _.debounce(function (editor) {
         Meteor.call('updateFile', file._id, editor.getValue())
