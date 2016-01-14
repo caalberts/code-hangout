@@ -1,6 +1,6 @@
 Template.fileList.onCreated(function () {
   const file = Files.findOne({ gistId: Session.get('gistId') })
-  Session.set('fileId', file._id)
+  if (file) Session.set('fileId', file._id)
 })
 
 Template.fileList.helpers({
@@ -13,21 +13,12 @@ Template.fileList.helpers({
 })
 
 Template.fileList.events({
-  'submit form': function (event) {
-    event.preventDefault()
-    const updateContent = {
-      files: {}
-    }
-    updateContent.files[this.filename] = { content: event.target.fileContent.value }
-
-    Meteor.call('updateGist', this.gistId, this.filename, updateContent)
-  },
   'click .create-file': function (event) {
     event.preventDefault()
 
     const newFile = {
-      filename: 'new-file-from-menu.txt',
-      content: 'I clicked a button to create a file',
+      filename: 'untitled',
+      content: 'new content',
       gistId: this.gistId,
       ownerId: Meteor.userId()
     }
@@ -45,7 +36,14 @@ Template.fileList.events({
 
 Template.fileItem.events({
   'click a.file': function (event) {
+    event.preventDefault()
     // load content in editor
     Session.set('fileId', this._id)
+  },
+  'click a.delete-file': function (event) {
+    event.preventDefault()
+    console.log(this)
+    Meteor.call('deleteFile', this.gistId, this._id, this.filename)
+    Session.set('fileId', null)
   }
 })

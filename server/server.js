@@ -62,66 +62,32 @@ Meteor.methods({
       })
   },
 
-  updateGist: function (gistId, filename, updateContent) {
+  createGist: function () { // TODO move createGist from client to server
+
+  },
+
+  renameGist: function (gistId, newDescription) {
+    const updateContent = {
+      description: newDescription
+    }
     const url = 'https://api.github.com/gists/' + gistId
     const opts = {
       method: 'PATCH',
       headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
       body: JSON.stringify(updateContent)
     }
-    Files.update(
-      { filename: filename },
-      { $set: { content: updateContent.files[filename].content } }
-    )
-    fetch(url, opts).catch(console.error)
-  },
-
-  deleteGist: function (gistId) { // TODO add feature to delete gist
-    const gistOwnerId = Gists.findOne({ gistId: gistId }).ownerId
-    if (Meteor.userId() === gistOwnerId) {
-      console.log('user is authorised to delete')
-      const url = 'https://api.github.com/gists/' + gistId
-      const opts = {
-        method: 'DELETE',
-        headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
-      }
-      fetch(url, opts).then(res => {
-        // add check if delete was successful
-        if (res.status === 204) {
-          // remove local gists and files
-          Gists.remove({ gistId: gistId })
-          Files.remove({ gistId: gistId })
-          // remove gistId from user profile
-          Meteor.users.update(
-            { _id: Meteor.userId() },
-            { $pull: { gists: gistId } }
-          )
+    fetch(url, opts)
+      .then(res => {
+        if (res.status === 200) {
+          Gists.update({ gistId: gistId }, { $set: { description: newDescription } })
+        } else {
+          throw new Error(res.status)
         }
-      }).catch(console.error)
-    } else {
-      console.log('unauthorised delete')
-    }
+      })
+      .catch(console.error)
   },
 
-  createFile: function (newFile, callback) {
-    Files.insert(newFile, function (err, id) {
-      if (err) throw err
-      Gists.update(
-        { gistId: newFile.gistId },
-        { $addToSet: { files: newFile.filename } }
-      )
-      return id
-    })
-  },
-
-  updateFile: function (fileId, newContent) {
-    Files.update(
-      { _id: fileId },
-      { $set: { content: newContent } }
-    )
-  },
-
-  publishGist: function (gistId, fileIds) { // TODO will replace updateGist()
+  publishGist: function (gistId, fileIds) {
     const updateContent = {
       files: {}
     }
@@ -145,17 +111,119 @@ Meteor.methods({
     Meteor.call('retrieveGistFiles', gistId)
   },
 
-  addCollaborator: function (gistId, username) {
-    Gists.update(
-      { gistId: gistId },
-      { $addToSet: { collaborators: username } }
+  deleteGist: function (gistId) { // TODO add feature to delete gist
+    const gistOwnerId = Gists.findOne({ gistId: gistId }).ownerId
+    if (Meteor.userId() === gistOwnerId) {
+      const url = 'https://api.github.com/gists/' + gistId
+      const opts = {
+        method: 'DELETE',
+        headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
+      }
+      fetch(url, opts).then(res => {
+        // add check if delete was successful
+        if (res.status === 204) {
+          // remove local gists and files
+          Gists.remove({ gistId: gistId })
+          Files.remove({ gistId: gistId })
+          // remove gistId from user profile
+          Meteor.users.update(
+            { _id: Meteor.userId() },
+            { $pull: { gists: gistId } }
+          )
+        }
+      }).catch(console.error)
+    } else {
+      return
+    }
+  },
+
+  createFile: function (newFile, callback) {
+    Files.insert(newFile, function (err, id) {
+      if (err) throw err
+      Gists.update(
+        { gistId: newFile.gistId },
+        { $addToSet: { files: newFile.filename } }
+      )
+      return id
+    })
+  },
+
+  // renameFile: function (gistId, fileId, oldName, newName) {
+  //   const updateContent = {
+  //     files: {}
+  //   }
+  //   updateContent.files[oldName] = { filename: newName }
+  //
+  //   const url = 'https://api.github.com/gists/' + gistId
+  //   const opts = {
+  //     method: 'PATCH',
+  //     headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
+  //     body: JSON.stringify(updateContent)
+  //   }
+  //   // TODO follow up with Github support on 500 error
+  //   fetch(url, opts)
+  //     .then(res => {
+  //       if (res.status === 200) {
+  //         // rename local file
+  //         console.log('file renamed')
+  //       } else {
+  //         throw new Error(res.status)
+  //       }
+  //     })
+  //     .catch(console.error)
+  // },
+
+  updateFile: function (fileId, newContent) {
+    Files.update(
+      { _id: fileId },
+      { $set: { content: newContent } }
     )
   },
 
-  removeCollaborator: function (gistId, username) {
+  deleteFile: function (gistId, fileId, filename) { // TODO add feature to delete file
+    const deleteFile = {
+      files: {}
+    }
+    deleteFile.files[filename] = null
+
+    const url = 'https://api.github.com/gists/' + gistId
+    const opts = {
+      method: 'PATCH',
+      headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
+      body: JSON.stringify(deleteFile)
+    }
+    fetch(url, opts)
+      .then(res => {
+        if (res.status === 200) {
+          Gists.update(
+            { gistId: gistId },
+            { $pull: { files: filename } }
+          )
+          Files.remove({ _id: fileId })
+        } else {
+          throw new Error(res.status)
+        }
+      })
+      .catch(console.error)
+  },
+
+  addCollaborator: function (gistId, githubLogin, githubId) {
+    const update = {
+      collaborators: {
+        githubId: githubId,
+        githubLogin: githubLogin
+      }
+    }
     Gists.update(
       { gistId: gistId },
-      { $pull: { collaborators: username } }
+      { $addToSet: update }
+    )
+  },
+
+  removeCollaborator: function (gistId, user) {
+    Gists.update(
+      { gistId: gistId },
+      { $pull: { collaborators: user } }
     )
   }
 

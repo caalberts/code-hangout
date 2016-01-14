@@ -1,6 +1,7 @@
 <template name="editor">
+{{#if fileId}}
   <span class="files-subtitle">Currently editing</span>
-  <h3>{{filename}}</h3>
+  <h3><span class="file-name" contentEditable="{{editable}}">{{filename}}</span></h3>
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-6">
@@ -11,7 +12,11 @@
       </div>
     </div>
   </div>
+{{else}}
+  <p>Please create a new file</p>
+{{/if}}
 </template>
+
 <!--
 <template name="viewer">
   <div class="col-sm-6">
@@ -31,4 +36,5 @@
     {{/each}}
   </div>
 </div>
-</template> -->
+</template>
+-->

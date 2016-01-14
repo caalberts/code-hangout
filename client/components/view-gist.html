@@ -14,17 +14,21 @@
       {{> editor}}
     </section>
   </div>
+
+{{> extraMenu}}
 </template>
 
 <template name="extraMenu">
-  <h3>Files:</h3>
-  <section class="files">
-    {{> fileList}}
-  </section>
-  <section class="collaborators">
-    {{> collaborators}}
-  </section>
-  <section class="actions">
-    {{> actions}}
-  </section>
+  <div class="container">
+    <h3>Files:</h3>
+    <section class="files">
+      {{> fileList}}
+    </section>
+    <section class="collaborators">
+      {{> collaborators}}
+    </section>
+    <section class="actions">
+      {{> actions}}
+    </section>
+  </div>
 </template>

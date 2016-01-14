@@ -1,24 +1,26 @@
 <template name="fileList">
   <ul class="file-list">
-    {{#each files}}
-      {{> fileItem}}
+    {{#if files}}
+      {{#each files}}
+        {{> fileItem}}
 
-      <!-- <h3 name="filename">{{filename}}</h3> -->
-      <!-- <form id="{{filename}}-form">
+        <!-- <h3 name="filename">{{filename}}</h3> -->
+        <!-- <form id="{{filename}}-form">
 
-        <textarea name="fileContent" id="{{filename}}-content" value="{{content}}" disabled={{disableEdit}}></textarea>
+          <textarea name="fileContent" id="{{filename}}-content" value="{{content}}" disabled={{disableEdit}}></textarea>
 
-        <input type="submit" class="update" value="Update Gist"/>
-      </form> -->
-      <!-- <button class="view-editor">View content on editor</button> -->
-    {{/each}}
+          <input type="submit" class="update" value="Update Gist"/>
+        </form> -->
+        <!-- <button class="view-editor">View content on editor</button> -->
+        
+      {{/each}}
+    {{/if}}
     <li><a href="#" class="create-file">Create a new file</a></li>
   </ul>
-  <!-- <section class="viewer">
-    {{> viewer}}
-  </section> -->
 </template>
 
 <template name="fileItem">
-  <li><a href="#" class="file">{{filename}}</a></li>
+  <li>
+    <a href="#" class="file">{{filename}}</a><a class="delete-file">&times;</a>
+  </li>
 </template>

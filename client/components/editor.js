@@ -1,13 +1,13 @@
 /* global _ */
-// Template.editor.events({
-//   'click #preview': function (event) {
-//     return false
-//   }
-// })
+
+Template.editor.events({
+  'click #preview': function (event) {
+    return false
+  }
+})
 
 Template.editor.helpers({
   fileId: function () {
-    console.log('fileId');
     return Session.get('fileId')
   },
   filename: function () {
@@ -15,16 +15,16 @@ Template.editor.helpers({
   },
   config: function () {
     return function (cm) {
-      // var converter = new Showdown.converter();
+      var converter = new Showdown.converter();
       const file = Files.findOne({ _id: Session.get('fileId') })
 
-      // cm.setSize('100%', 400)
-      // cm.setOption('lineNumbers', true)
-      // cm.setOption('lineWrapping', true)
+      cm.setSize('100%', 400)
+      cm.setOption('lineNumbers', true)
+      cm.setOption('lineWrapping', true)
 
       // periodically update file object when there is a change in the editor
       cm.doc.on('change', _.debounce(function (editor) {
-        // document.getElementById('preview').innerHTML = converter.makeHtml(editor.getValue())
+        document.getElementById('preview').innerHTML = converter.makeHtml(editor.getValue())
         Meteor.call('updateFile', file._id, editor.getValue())
       }, 500))
     }
