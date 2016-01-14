@@ -21,6 +21,25 @@ Template.fileList.events({
     updateContent.files[this.filename] = { content: event.target.fileContent.value }
 
     Meteor.call('updateGist', this.gistId, this.filename, updateContent)
+  },
+  'click .create-file': function (event) {
+    event.preventDefault()
+
+    const newFile = {
+      filename: 'new-file-from-menu.txt',
+      content: 'I clicked a button to create a file',
+      gistId: this.gistId,
+      ownerId: Meteor.userId()
+    }
+    Meteor.call('createFile', newFile)
+
+    const newFileId = Files.findOne(
+      { $and: [
+        { gistId: newFile.gistId },
+        { filename: newFile.filename }
+      ] }
+    )._id
+    Session.set('fileId', newFileId)
   }
 })
 

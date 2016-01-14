@@ -76,6 +76,17 @@ Meteor.methods({
     fetch(url, opts).catch(console.error)
   },
 
+  createFile: function (newFile, callback) {
+    Files.insert(newFile, function (err, id) {
+      if (err) throw err
+      Gists.update(
+        { gistId: newFile.gistId },
+        { $addToSet: { files: newFile.filename } }
+      )
+      return id
+    })
+  },
+
   updateFile: function (fileId, newContent) {
     Files.update(
       { _id: fileId },
@@ -119,7 +130,7 @@ Meteor.methods({
       { gistId: gistId },
       { $pull: { collaborators: username } }
     )
-  },
+  }
 
   // addEditingUser: function () {
   //   var doc, user, eusers
