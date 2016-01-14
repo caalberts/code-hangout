@@ -1,6 +1,6 @@
 <template name="editor">
   {{#if fileId}}
-  <h3>Editing <span class="file-name" contentEditable="{{editable}}">{{filename}}</span></h3>
+  <h3>Editing <span class="file-name" contentEditable={{owner}}>{{filename}}</span></h3>
   <div class="col-sm-6">
     {{> sharejsCM docid=fileId onRender=config onConnect=setContent id="editor"}}
   </div>

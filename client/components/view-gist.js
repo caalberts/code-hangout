@@ -1,7 +1,12 @@
+Template.viewGist.onCreated(function () {
+  console.log(this)
+  Session.set('gistOwnerId', this.data.ownerId)
+  Session.set('gistCollaborators', this.data.collaborators)
+})
 
 Template.viewGist.helpers({
-  editable: function () {
-    return (Meteor.userId() === this.ownerId) ? 'true' : 'false'
+  owner: function () {
+    return (Meteor.userId() && (Meteor.userId() === Session.get('gistOwnerId')))
   }
 })
 

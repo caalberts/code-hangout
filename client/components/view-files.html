@@ -9,15 +9,12 @@
     <li><a href="#" class="create-file">Create a new file</a></li>
     {{/if}}
   </ul>
-  <!-- <section class="viewer">
-    {{> viewer}}
-  </section> -->
 </template>
 
 <template name="fileItem">
   <li>
     <a href="#" class="file">{{filename}}</a>
-    {{#if currentUser}}
+    {{#if owner}}
       <a class="delete-file"> &times;</a>
     {{/if}}
   </li>

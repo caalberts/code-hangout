@@ -1,8 +1,8 @@
 /* global _ */
 
 Template.editor.helpers({
-  editable: function () {
-    return (Meteor.userId() === this.ownerId) ? 'true' : 'false'
+  owner: function () {
+    return (Meteor.userId() && (Meteor.userId() === Session.get('gistOwnerId')))
   },
 
   fileId: function () {
@@ -16,7 +16,16 @@ Template.editor.helpers({
       const file = Files.findOne({ _id: Session.get('fileId') })
 
       cm.setOption('lineNumbers', true)
-      if (Meteor.userId() !== this.ownerId) cm.setOption('readOnly', true)
+
+      if (!Meteor.userId()) {
+        cm.setOption('readOnly', true)
+      } else {
+        const collaboratorIds = Session.get('gistCollaborators').map(collaborator => collaborator.githubId)
+        const collaboratorIndex = collaboratorIds.indexOf(Meteor.user().services.github.id)
+        if ((collaboratorIndex < 0) && (Meteor.userId() !== Session.get('gistOwnerId'))) {
+          cm.setOption('readOnly', true)
+        }
+      }
 
       // periodically update file object when there is a change in the editor
       cm.doc.on('change', _.debounce(function (editor) {

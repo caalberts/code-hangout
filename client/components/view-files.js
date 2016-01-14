@@ -6,9 +6,6 @@ Template.fileList.onCreated(function () {
 Template.fileList.helpers({
   files: function () {
     return Files.find({ gistId: this.gistId })
-  },
-  disableEdit: function () {
-    return !(this.ownerId === Meteor.userId())
   }
 })
 
@@ -34,6 +31,12 @@ Template.fileList.events({
   }
 })
 
+Template.fileItem.helpers({
+  owner: function () {
+    return (Meteor.userId() && (Meteor.userId() === Session.get('gistOwnerId')))
+  }
+})
+
 Template.fileItem.events({
   'click a.file': function (event) {
     event.preventDefault()
@@ -42,7 +45,6 @@ Template.fileItem.events({
   },
   'click a.delete-file': function (event) {
     event.preventDefault()
-    console.log(this)
     Meteor.call('deleteFile', this.gistId, this._id, this.filename)
     Session.set('fileId', null)
   }

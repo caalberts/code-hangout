@@ -14,7 +14,7 @@
     {{#if currentUser}}
     <span class="sub">Currently editing</span>
     {{/if}}
-    <h3 class="gist-description" contentEditable="{{editable}}">{{description}}</h3>
+    <h3 class="gist-description" contentEditable={{owner}}>{{description}}</h3>
     <h2>Files:</h2>
     <section class="files">
       {{> fileList}}
