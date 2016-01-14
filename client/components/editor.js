@@ -1,6 +1,10 @@
 /* global _ */
 
 Template.editor.helpers({
+  editable: function () {
+    return (Meteor.userId() === this.ownerId) ? 'true' : 'false'
+  },
+
   fileId: function () {
     return Session.get('fileId')
   },
@@ -12,6 +16,7 @@ Template.editor.helpers({
       const file = Files.findOne({ _id: Session.get('fileId') })
 
       cm.setOption('lineNumbers', true)
+      if (Meteor.userId() !== this.ownerId) cm.setOption('readOnly', true)
 
       // periodically update file object when there is a change in the editor
       cm.doc.on('change', _.debounce(function (editor) {
