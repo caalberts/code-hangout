@@ -1,8 +1,10 @@
 <template name="editor">
 {{#if fileId}}
-  <span class="files-subtitle">Currently editing</span>
+  {{#if currentUser}}
+    <span class="files-subtitle">Currently editing</span>
+  {{/if}}
   <h3 class="files-filename">
-    <span class="file-name" contentEditable="{{editable}}">{{filename}}</span>
+    <span class="file-name" contentEditable="{{owner}}">{{filename}}</span>
   </h3>
   <div class="container-fluid">
     <div class="row">

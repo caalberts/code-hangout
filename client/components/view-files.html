@@ -3,24 +3,19 @@
     {{#if files}}
       {{#each files}}
         {{> fileItem}}
-
-        <!-- <h3 name="filename">{{filename}}</h3> -->
-        <!-- <form id="{{filename}}-form">
-
-          <textarea name="fileContent" id="{{filename}}-content" value="{{content}}" disabled={{disableEdit}}></textarea>
-
-          <input type="submit" class="update" value="Update Gist"/>
-        </form> -->
-        <!-- <button class="view-editor">View content on editor</button> -->
-        
       {{/each}}
     {{/if}}
+    {{#if currentUser}}
     <li><a href="#" class="create-file">Create a new file</a></li>
+    {{/if}}
   </ul>
 </template>
 
 <template name="fileItem">
   <li>
-    <a href="#" class="file">{{filename}}</a><a class="delete-file">&times;</a>
+    <a href="#" class="file">{{filename}}</a>
+    {{#if owner}}
+      <a class="delete-file"> &times;</a>
+    {{/if}}
   </li>
 </template>

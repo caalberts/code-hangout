@@ -32,3 +32,5 @@
 {content:'';}
 
 .reset abbr,.reset acronym{border:0;}
+
+.reset code{font-family: monospace, sans-serif;}

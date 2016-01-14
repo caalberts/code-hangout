@@ -1,15 +1,17 @@
 <template name="viewGist">
   <div class="wrapper">
+    {{#if currentUser}}
     <ol class="breadcrumb">
       <li><a href="/profile">Dashboard</a></li>
       <li class="active">Edit Gist</li>
     </ol>
+    {{/if}}
 
     {{#unless currentUser}}
       {{> callToLogin}}
     {{/unless}}
 
-    <h3 class="gist-description" contentEditable="{{editable}}" data-toggle="tooltip" data-placement="bottom" title="Rename this gist">{{description}}</h3>
+    <h3 class="gist-description" contentEditable="{{owner}}" data-toggle="tooltip" data-placement="bottom" title="Rename this gist">{{description}}</h3>
     <section class="text-editor">
       {{> editor}}
     </section>

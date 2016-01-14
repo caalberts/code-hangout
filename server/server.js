@@ -165,7 +165,6 @@ Meteor.methods({
   //     .then(res => {
   //       if (res.status === 200) {
   //         // rename local file
-  //         console.log('file renamed')
   //       } else {
   //         throw new Error(res.status)
   //       }
