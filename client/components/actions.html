@@ -1,19 +1,20 @@
 <template name="actions">
+  {{#if currentUser}}
   <h3>Actions</h3>
   <!-- if currentUser === owner -->
     <!-- show 'invite', 'save', 'publish' -->
     <h4>Invite collaborators</h4>
     <form id="invite" method="post">
-      <input class="searchUser" type="text" name="searchUsers" value="" placeholder="@githubusername">
+      <input class="search-user" type="text" name="searchUsers" value="" placeholder="@githubusername">
       <input type="submit" name="invite" value="Invite">
       <div>
         {{#each results}}
-        <a class="searchResult">{{this}}</a>
+        <a class="search-result">{{this}}</a>
         {{/each}}
       </div>
     </form>
-    <button class="saveGist">Save</button>
-    <button class="publishGist">Publish</button>
+    <button class="publish-gist">Publish</button>
   <!-- if currentUser === collaborator -->
     <!-- show 'save' -->
+  {{/if}}
 </template>

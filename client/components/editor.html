@@ -1,10 +1,10 @@
 <template name="editor">
   <h3>Editing {{filename}}</h3>
   <div class="col-sm-6">
-    {{> sharejsCM docid=docid onRender=config id="editor"}}
+    {{> sharejsCM docid=fileId onRender=config onConnect=setContent id="editor"}}
   </div>
 </template>
-
+<!--
 <template name="viewer">
   <div class="col-sm-6">
     <iframe id="viewer_iframe"></iframe>
@@ -23,4 +23,4 @@
     {{/each}}
   </div>
 </div>
-</template>
+</template> -->

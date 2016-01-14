@@ -21,19 +21,6 @@ Accounts.onLogin(function () {
     })
 })
 
-Meteor.publish('user', function () {
-  if (this.userId) {
-    const user = Meteor.users.find(this.userId)
-    return user
-  }
-})
-Meteor.publish('gists', function () {
-  return Gists.find()
-})
-Meteor.publish('files', function () {
-  return Files.find()
-})
-
 Meteor.methods({
   retrieveGistFiles: function (id) {
     // retrieve each gist
@@ -89,12 +76,35 @@ Meteor.methods({
     fetch(url, opts).catch(console.error)
   },
 
-  updateGistFile: function (gistId, filename, updateContent) {
-
+  updateFile: function (fileId, newContent) {
+    Files.update(
+      { _id: fileId },
+      { $set: { content: newContent } }
+    )
   },
 
-  publishGist: function (gistId) {
+  publishGist: function (gistId, fileIds) { // TODO will replace updateGist()
+    const updateContent = {
+      files: {}
+    }
 
+    // consolidate files
+    Files.find({ gistId: gistId })
+      .forEach(file => {
+        updateContent.files[file.filename] = { content: file.content }
+      })
+
+    // send update to github
+    const url = 'https://api.github.com/gists/' + gistId
+    const opts = {
+      method: 'PATCH',
+      headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
+      body: JSON.stringify(updateContent)
+    }
+    fetch(url, opts).catch(console.error)
+
+    // synchronize with github
+    Meteor.call('retrieveGistFiles', gistId)
   },
 
   addCollaborator: function (gistId, username) {
@@ -111,26 +121,26 @@ Meteor.methods({
     )
   },
 
-  addEditingUser: function () {
-    var doc, user, eusers
-    doc = Documents.findOne()
-    if (!doc) {
-      return
-    }
-    if (!this.userId) {
-      return
-    }
-    user = Meteor.user().profile
-    eusers = EditingUsers.findOne({ docid: doc._id })
-    if (!eusers) {
-      eusers = {
-        docid: doc._id,
-        users: {}
-      }
-    }
-    user.lastEdit = new Date()
-    eusers.users[this.userId] = user
-
-    EditingUsers.upsert({ _id: eusers._id }, eusers)
-  }
+  // addEditingUser: function () {
+  //   var doc, user, eusers
+  //   doc = Documents.findOne()
+  //   if (!doc) {
+  //     return
+  //   }
+  //   if (!this.userId) {
+  //     return
+  //   }
+  //   user = Meteor.user().profile
+  //   eusers = EditingUsers.findOne({ docid: doc._id })
+  //   if (!eusers) {
+  //     eusers = {
+  //       docid: doc._id,
+  //       users: {}
+  //     }
+  //   }
+  //   user.lastEdit = new Date()
+  //   eusers.users[this.userId] = user
+  //
+  //   EditingUsers.upsert({ _id: eusers._id }, eusers)
+  // }
 })

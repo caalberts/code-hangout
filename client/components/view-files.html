@@ -1,24 +1,23 @@
-<template name="viewFiles">
-  <div class="file-list-menu">
-    <ul class="file-list">
-      {{#each files}}
-        <h3 name="filename">{{filename}}</h3>
-        <form id="{{filename}}-form">
+<template name="fileList">
+  <ul class="file-list">
+    {{#each files}}
+      {{> fileItem}}
 
-          <textarea name="fileContent" id="{{filename}}-content" value="{{content}}" disabled={{disableEdit}}></textarea>
+      <!-- <h3 name="filename">{{filename}}</h3> -->
+      <!-- <form id="{{filename}}-form">
 
-          <input type="submit" class="update" value="Update Gist"/>
-        </form>
-        <button class="view-editor">View content on editor</button>
-      {{/each}}
-    </ul>
-  </div>
-  <div class="row">
-    <section class="editor">
-      {{> editor}}
-    </section>
-    <section class="viewer">
-      {{> viewer}}
-    </section>
-  </div>
+        <textarea name="fileContent" id="{{filename}}-content" value="{{content}}" disabled={{disableEdit}}></textarea>
+
+        <input type="submit" class="update" value="Update Gist"/>
+      </form> -->
+      <!-- <button class="view-editor">View content on editor</button> -->
+    {{/each}}
+  </ul>
+  <!-- <section class="viewer">
+    {{> viewer}}
+  </section> -->
+</template>
+
+<template name="fileItem">
+  <li><a href="#" class="file">{{filename}}</a></li>
 </template>
