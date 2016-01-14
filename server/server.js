@@ -224,6 +224,22 @@ Meteor.methods({
       { gistId: gistId },
       { $pull: { collaborators: user } }
     )
+  },
+
+  setEditLocation: function (userId, fileId, location) {
+    Edits.upsert(
+      { $and: [{userId: userId}, {fileId: fileId}]},
+      {
+        fileId: fileId,
+        userId: userId,
+        username: Meteor.user().services.github.username,
+        location: location
+      }
+    )
+  },
+
+  removeEditLocation: function (userId, fileId) {
+    Edits.remove({ $and: [{userId: userId}, {fileId: fileId}]})
   }
 
   // addEditingUser: function () {
