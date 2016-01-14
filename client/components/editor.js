@@ -8,9 +8,23 @@ Template.editor.helpers({
   fileId: function () {
     return Session.get('fileId')
   },
+
   filename: function () {
     return Files.findOne({ _id: Session.get('fileId') }).filename
   },
+
+  editors: function () {
+    const edits = Edits.find({ fileId: Session.get('fileId')})
+    if (edits) {
+      return edits.map(edit => edit.username)
+    }
+  },
+
+  manyEditors: function () {
+    const edits = Edits.find({ fileId: Session.get('fileId')})
+    return edits.length > 1
+  },
+
   config: function () {
     return function (cm) {
       const file = Files.findOne({ _id: Session.get('fileId') })
@@ -30,16 +44,40 @@ Template.editor.helpers({
         }
       }
 
+      // cm.setValue(file.content)
+
+      cm.on('keydown', _.debounce(function (editor) {
+        Meteor.call('setEditLocation', Meteor.userId(), file._id, editor.doc.getCursor())
+        _.delay(function() {
+          Meteor.call('removeEditLocation', Meteor.userId(), file._id)
+        }, 3000)
+      }), 1000)
+
       // periodically update file object when there is a change in the editor
-      cm.doc.on('change', _.debounce(function (editor) {
+      cm.on('change', _.debounce(function (editor) {
         Meteor.call('updateFile', file._id, editor.getValue())
-      }, 500))
+      }, 2000))
+
+      // log activities in edits
     }
   },
   setContent: function () {
     return function (cm) {
+      // console.log('set content');
       const file = Files.findOne({ _id: Session.get('fileId') })
-      cm.doc.setValue(file.content)
+      cm.setValue(file.content)
+    }
+  }
+})
+
+Template.editor.events({
+  'focus .file-name': function (event) {
+    Session.set('prevFileName', event.target.textContent)
+  },
+  'blur .file-name': function (event) {
+    if (event.target.textContent !== Session.get('prevFileName')) {
+      // TODO follow up with Github support on 500 error
+      // Meteor.call('renameFile', this.gistId, Session.get('fileId'), Session.get('prevFileName'), event.target.textContent)
     }
   }
 })
