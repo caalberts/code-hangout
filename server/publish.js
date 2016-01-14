@@ -2,6 +2,8 @@ Meteor.publish('user', function () {
   if (this.userId) {
     const user = Meteor.users.find(this.userId)
     return user
+  } else {
+    this.ready()
   }
 })
 Meteor.publish('gists', function () {
