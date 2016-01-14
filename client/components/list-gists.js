@@ -1,6 +1,16 @@
 Template.listGists.helpers({
   gists: function () {
     return Gists.find({ ownerId: Meteor.userId() })
+  },
+  collaborations: function () {
+    return Gists.find({
+      collaborators: {
+        $in: [{
+          githubId: Meteor.user().services.github.id,
+          githubLogin: Meteor.user().services.github.username
+        }]
+      }
+    })
   }
 })
 

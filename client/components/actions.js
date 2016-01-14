@@ -36,7 +36,7 @@ Template.actions.events({
       'addCollaborator',
       this.gistId,
       event.target.githubLogin.value,
-      event.target.githubId.value
+      parseInt(event.target.githubId.value, 10)
     )
     document.querySelector('.search-githublogin').value = ''
     document.querySelector('.search-githubid').value = ''
