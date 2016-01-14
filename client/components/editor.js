@@ -20,10 +20,13 @@ Template.editor.helpers({
       if (!Meteor.userId()) {
         cm.setOption('readOnly', true)
       } else {
-        const collaboratorIds = Session.get('gistCollaborators').map(collaborator => collaborator.githubId)
-        const collaboratorIndex = collaboratorIds.indexOf(Meteor.user().services.github.id)
-        if ((collaboratorIndex < 0) && (Meteor.userId() !== Session.get('gistOwnerId'))) {
-          cm.setOption('readOnly', true)
+        const collaborators = Session.get('gistCollaborators')
+        if (collaborators) {
+          const collaboratorIds = collaborators.map(collaborator => collaborator.githubId)
+          const collaboratorIndex = collaboratorIds.indexOf(Meteor.user().services.github.id)
+          if ((collaboratorIndex < 0) && (Meteor.userId() !== Session.get('gistOwnerId'))) {
+            cm.setOption('readOnly', true)
+          }
         }
       }
 
