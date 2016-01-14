@@ -13,15 +13,6 @@ Template.fileList.helpers({
 })
 
 Template.fileList.events({
-  'submit form': function (event) {
-    event.preventDefault()
-    const updateContent = {
-      files: {}
-    }
-    updateContent.files[this.filename] = { content: event.target.fileContent.value }
-
-    Meteor.call('updateGist', this.gistId, this.filename, updateContent)
-  },
   'click .create-file': function (event) {
     event.preventDefault()
 

@@ -9,7 +9,6 @@ Template.actions.helpers({
 Template.actions.events({
   // publish gist
   'click .publish-gist': function (argument) {
-    // console.log(this.gistId)
     Meteor.call('publishGist', this.gistId)
   },
   // delete gist

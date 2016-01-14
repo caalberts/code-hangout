@@ -62,24 +62,58 @@ Meteor.methods({
       })
   },
 
-  updateGist: function (gistId, filename, updateContent) {
+  createGist: function () { // TODO move createGist from client to server
+
+  },
+
+  renameGist: function (gistId, newDescription) {
+    const updateContent = {
+      description: newDescription
+    }
     const url = 'https://api.github.com/gists/' + gistId
     const opts = {
       method: 'PATCH',
       headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
       body: JSON.stringify(updateContent)
     }
-    Files.update(
-      { filename: filename },
-      { $set: { content: updateContent.files[filename].content } }
-    )
+    fetch(url, opts)
+      .then(res => {
+        if (res.status === 200) {
+          Gists.update({ gistId: gistId }, { $set: { description: newDescription } })
+        } else {
+          throw new Error(res.status)
+        }
+      })
+      .catch(console.error)
+  },
+
+  publishGist: function (gistId, fileIds) {
+    const updateContent = {
+      files: {}
+    }
+
+    // consolidate files
+    Files.find({ gistId: gistId })
+      .forEach(file => {
+        updateContent.files[file.filename] = { content: file.content }
+      })
+
+    // send update to github
+    const url = 'https://api.github.com/gists/' + gistId
+    const opts = {
+      method: 'PATCH',
+      headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
+      body: JSON.stringify(updateContent)
+    }
     fetch(url, opts).catch(console.error)
+
+    // synchronize with github
+    Meteor.call('retrieveGistFiles', gistId)
   },
 
   deleteGist: function (gistId) { // TODO add feature to delete gist
     const gistOwnerId = Gists.findOne({ gistId: gistId }).ownerId
     if (Meteor.userId() === gistOwnerId) {
-      console.log('user is authorised to delete')
       const url = 'https://api.github.com/gists/' + gistId
       const opts = {
         method: 'DELETE',
@@ -99,7 +133,7 @@ Meteor.methods({
         }
       }).catch(console.error)
     } else {
-      console.log('unauthorised delete')
+      return
     }
   },
 
