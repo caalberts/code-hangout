@@ -1,6 +1,6 @@
 
 Template.viewGist.helpers({
-  'editable': function () {
+  editable: function () {
     return (Meteor.userId() === this.ownerId) ? 'true' : 'false'
   }
 })

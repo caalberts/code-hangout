@@ -1,6 +1,6 @@
 Template.fileList.onCreated(function () {
   const file = Files.findOne({ gistId: Session.get('gistId') })
-  Session.set('fileId', file._id)
+  if (file) Session.set('fileId', file._id)
 })
 
 Template.fileList.helpers({
@@ -36,7 +36,14 @@ Template.fileList.events({
 
 Template.fileItem.events({
   'click a.file': function (event) {
+    event.preventDefault()
     // load content in editor
     Session.set('fileId', this._id)
+  },
+  'click a.delete-file': function (event) {
+    event.preventDefault()
+    console.log(this)
+    Meteor.call('deleteFile', this.gistId, this._id, this.filename)
+    Session.set('fileId', null)
   }
 })

@@ -10,8 +10,8 @@ Template.listGists.events({
       description: 'Untitled',
       public: true,
       files: {
-        'untitled.txt': {
-          content: 'hello world from new file'
+        'untitled': {
+          content: 'new content'
         }
       }
     }

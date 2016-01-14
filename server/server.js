@@ -148,6 +148,31 @@ Meteor.methods({
     })
   },
 
+  // renameFile: function (gistId, fileId, oldName, newName) {
+  //   const updateContent = {
+  //     files: {}
+  //   }
+  //   updateContent.files[oldName] = { filename: newName }
+  //
+  //   const url = 'https://api.github.com/gists/' + gistId
+  //   const opts = {
+  //     method: 'PATCH',
+  //     headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
+  //     body: JSON.stringify(updateContent)
+  //   }
+  //   // TODO follow up with Github support on 500 error
+  //   fetch(url, opts)
+  //     .then(res => {
+  //       if (res.status === 200) {
+  //         // rename local file
+  //         console.log('file renamed')
+  //       } else {
+  //         throw new Error(res.status)
+  //       }
+  //     })
+  //     .catch(console.error)
+  // },
+
   updateFile: function (fileId, newContent) {
     Files.update(
       { _id: fileId },
@@ -155,8 +180,31 @@ Meteor.methods({
     )
   },
 
-  deleteFile: function () { // TODO add feature to delete file
+  deleteFile: function (gistId, fileId, filename) { // TODO add feature to delete file
+    const deleteFile = {
+      files: {}
+    }
+    deleteFile.files[filename] = null
 
+    const url = 'https://api.github.com/gists/' + gistId
+    const opts = {
+      method: 'PATCH',
+      headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
+      body: JSON.stringify(deleteFile)
+    }
+    fetch(url, opts)
+      .then(res => {
+        if (res.status === 200) {
+          Gists.update(
+            { gistId: gistId },
+            { $pull: { files: filename } }
+          )
+          Files.remove({ _id: fileId })
+        } else {
+          throw new Error(res.status)
+        }
+      })
+      .catch(console.error)
   },
 
   addCollaborator: function (gistId, username) {
