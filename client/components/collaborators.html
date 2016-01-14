@@ -1,6 +1,6 @@
 <template name="collaborators">
   <h3>Collaborators</h3>
   {{#each collaborators}}
-    <li class="collaborator">{{this.githubLogin}}{{#if currentUser}} <a class="remove-collaborator">&times;</a>{{/if}}</li>
+    <li class="collaborator">{{this.githubLogin}}{{#if owner}} <a class="remove-collaborator">&times;</a>{{/if}}</li>
   {{/each}}
 </template>
