@@ -1,19 +1,23 @@
 <template name="listGists">
-  <div class="container-fluid">
+  <div class="wrapper">
     {{#if currentUser}}
     <ol class="breadcrumb">
       <li class="active">Dashboard</li>
     </ol>
     <h3>Welcome back!</h3>
     <!-- <span class="github-username">{{currentUser.services.github.username}}</span> -->
+    <p class="gist-subtitle">Your Gists</p>
     <div class="gist-container">
-      <p class="sub">Your Gists</p>
-      <ul class="row">
-        {{#each gists}}
-          <li class="col-sm-3"><a href="/gist/{{gistId}}">{{description}}</a></li>
-        {{/each}}
-        <li><a class="createGist" href="#">Create new Gist</a></li>
-      </ul>
+      <div class="container-fluid">
+        <div class="row">
+          <ul class="gist-list">
+            {{#each gists}}
+              <li class="col-sm-3"><a href="/gist/{{gistId}}">{{description}}</a></li>
+            {{/each}}
+              <li class="col-sm-3"><a class="createGist" href="#">Create a new Gist</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
     {{else}}
       {{> callToLogin}}
