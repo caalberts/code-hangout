@@ -1,0 +1,266 @@
+/* CSS Resets */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+*,
+*:after,
+*::before {
+    box-sizing: border-box;
+}
+
+/* Generic Styling */
+html, body {
+	height: 100%;
+}
+html {
+  font-size: 17px;
+}
+@media (max-width: 900px) {
+  html { font-size: 15px; }
+}
+@media (max-width: 400px) {
+  html { font-size: 13px; }
+}
+
+body {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.4;
+	background: #f3f3f3;
+
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2.5rem;
+}
+h3 {
+  font-size: 2rem;
+}
+p{
+  letter-spacing: .4px;
+}
+a {
+    -webkit-transition: color 0.125s ease-in-out;
+    transition: color 0.125s ease-in-out;
+    text-decoration: none;
+}
+a:hover {
+	text-decoration: none;
+}
+/* Navigation Styling */
+.navbar-default {
+    background-color: #3c4451;
+    border: 0;
+}
+.navbar-default .navbar-toggle {
+    border-color: rgba(255,255,255,.2);
+}
+.navbar {
+  border-radius: 0;
+  margin-bottom: 0;
+}
+.navbar-right {
+	margin: 5px 15px;
+}
+@media (max-width: 767px) {
+	.navbar-right {
+		float: right !important;
+		margin: 8px 15px;
+	}
+}
+.navbar-brand {
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+}
+.navbar-toggle {
+  float: left;
+  margin-left: 15px;
+	margin-right: 0;
+}
+@media (min-width: 0) {
+  .navbar-toggle {
+    display: block; /* force showing the toggle */
+  }
+}
+.nav > li > a {
+  padding: 13px 15px;
+}
+.navmenu-default {
+    background-color: #3c4451;
+    border-color: #2c3e50;
+}
+.navmenu-default .navmenu-nav > li > a:hover {
+  color: #ddd;
+}
+
+/* icons */
+.navmenu-nav > li > a:before {
+  display: inline-block;
+  width: 60px;
+  text-align: center;
+  text-transform: none;
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal;
+  font-family: 'FontAwesome';
+  line-height: 1;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.icon-home:before {
+  content: "\f015"
+}
+.icon-newgist:before {
+  content: "\f0f6"
+}
+
+/* Homepage - Jumbotron */
+.login-button, .login-display-name{
+	font-family: 'Lato', sans-serif !important;
+}
+.login-button {
+  padding: 8px 16px !important;
+  background: #336699 !important;
+  border: 1px solid #596595 !important;
+}
+#login-buttons-image-github {
+  left: 10px !important;
+  top: 10px !important;
+}
+
+.jumbotron {
+	text-align: center;
+	background: #000 url('../../images/jumbo-bg.jpg') 50% 50% no-repeat;
+	background-size: cover;
+  padding-top: 60px;
+  padding-bottom: 60px;
+	color: #fff;
+}
+.jumbotron h2{
+	margin-bottom: 30px;
+	color: #3d4653;
+}
+.jumbotron p {
+	margin-bottom: 0;
+}
+.jumbotron #login-buttons {
+	margin: 30px 0 !important;
+}
+
+/* Profile page - Main content */
+.breadcrumb {
+	padding: 0;
+	background: none;
+	margin-bottom: 10px;
+	font-size: 12px;
+	text-transform: uppercase;
+}
+.wrapper {
+	padding: 25px;
+}
+.wrapper h3{
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+/* Gist Page - View Gist */
+.gist-subtitle {
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #fff;
+	background: #bbb;
+	padding: 15px;
+	border-radius: 3px 3px 0 0;
+}
+.gist-container {
+	background: #fff;
+	padding: 15px 0;
+}
+.gist-container ul li {
+	margin-bottom: 15px;
+}
+.gist-container ul li a {
+	color: #fff;
+	background: #337ab7;
+	line-height: 1.6;
+	display: inline-block;
+	padding: 15px;
+	width: 100%;
+	min-height:120px;
+	border-radius: 3px;
+	box-sizing: border-box;
+}
+.gist-container ul li a:hover {
+	background: #204e75;
+}
+.gist-container ul li:last-child a {
+	background: #75ba50;
+}
+.gist-container ul li:last-child a:hover {
+	background: #4f8233;
+}
+.gist-container ul li a:after {
+	content: "\f15c";
+  display: block;
+  font-family: "FontAwesome";
+  position: absolute;
+  font-size: 100px;
+  right: 40px;
+  top: 0px;
+  color: rgba(255, 255, 255, 0.1);
+}
+@media (max-width: 767px) {
+	.gist-container ul li a{
+		min-height: inherit;
+	}
+	.gist-container ul li a:after{
+		content: none;
+	}
+}
+.col-sm-3:nth-child(4n+1) {
+	clear: left;
+}
