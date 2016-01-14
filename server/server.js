@@ -76,6 +76,44 @@ Meteor.methods({
     fetch(url, opts).catch(console.error)
   },
 
+  deleteGist: function (gistId) { // TODO add feature to delete gist
+    const gistOwnerId = Gists.findOne({ gistId: gistId }).ownerId
+    if (Meteor.userId() === gistOwnerId) {
+      console.log('user is authorised to delete')
+      const url = 'https://api.github.com/gists/' + gistId
+      const opts = {
+        method: 'DELETE',
+        headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken }
+      }
+      fetch(url, opts).then(res => {
+        // add check if delete was successful
+        if (res.status === 204) {
+          // remove local gists and files
+          Gists.remove({ gistId: gistId })
+          Files.remove({ gistId: gistId })
+          // remove gistId from user profile
+          Meteor.users.update(
+            { _id: Meteor.userId() },
+            { $pull: { gists: gistId } }
+          )
+        }
+      }).catch(console.error)
+    } else {
+      console.log('unauthorised delete')
+    }
+  },
+
+  createFile: function (newFile, callback) {
+    Files.insert(newFile, function (err, id) {
+      if (err) throw err
+      Gists.update(
+        { gistId: newFile.gistId },
+        { $addToSet: { files: newFile.filename } }
+      )
+      return id
+    })
+  },
+
   updateFile: function (fileId, newContent) {
     Files.update(
       { _id: fileId },
@@ -119,7 +157,7 @@ Meteor.methods({
       { gistId: gistId },
       { $pull: { collaborators: username } }
     )
-  },
+  }
 
   // addEditingUser: function () {
   //   var doc, user, eusers

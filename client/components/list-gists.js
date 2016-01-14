@@ -7,10 +7,10 @@ Template.listGists.helpers({
 Template.listGists.events({
   'click .createGist': function (event) {
     const createGist = {
-      description: 'New gist',
+      description: 'Untitled',
       public: true,
       files: {
-        'hello-world.txt': {
+        'untitled.txt': {
           content: 'hello world from new file'
         }
       }

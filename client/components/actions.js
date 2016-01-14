@@ -12,6 +12,13 @@ Template.actions.events({
     // console.log(this.gistId)
     Meteor.call('publishGist', this.gistId)
   },
+  // delete gist
+  'click .delete-gist': function () {
+    Meteor.call('deleteGist', this.gistId, function (err, result) {
+      if (err) console.error(err)
+      Router.go('/profile')
+    })
+  },
 
   // search github users
   'keyup .search-user': _.debounce(function (event) {

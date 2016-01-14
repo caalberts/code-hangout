@@ -6,14 +6,15 @@
     <h4>Invite collaborators</h4>
     <form id="invite" method="post">
       <input class="search-user" type="text" name="searchUsers" value="" placeholder="@githubusername">
-      <input type="submit" name="invite" value="Invite">
+      <input class="btn btn-info" type="submit" name="invite" value="Invite">
       <div>
         {{#each results}}
         <a class="search-result">{{this}}</a>
         {{/each}}
       </div>
     </form>
-    <button class="publish-gist">Publish</button>
+    <button class="publish-gist btn btn-success">Publish Gist</button>
+    <button class="delete-gist btn btn-danger">Delete Gist</button>
   <!-- if currentUser === collaborator -->
     <!-- show 'save' -->
   {{/if}}

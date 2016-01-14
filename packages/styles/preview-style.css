@@ -17,8 +17,15 @@
 {text-align:left;}
 
 .reset h1,.reset h2,.reset h3,.reset h4,.reset h5,.reset h6
-{font-weight:normal;}
-/*font-size:100%*/
+{font-size:inherit;font-weight:normal;}
+
+.reset h1{font-size:2em;}
+.reset h2{font-size:1.5em;}
+.reset h3{font-size:1.17em;}
+.reset h4{font-size:1em;}
+.reset h5{font-size:0.83em;}
+.reset h6{font-size:0.75em;}
+
 .reset q:before,.reset q:after
 {content:'';}
 
