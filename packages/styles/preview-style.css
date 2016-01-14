@@ -11,13 +11,15 @@
 {font-style:normal;font-weight:normal;}
 
 .reset ol,.reset ul
-{list-style:none;}
+{list-style:disc inside;}
+
+.reset ul ul {list-style:disc inside;padding: 5px 20px;margin: 5px 10px;}
 
 .reset caption,.reset th
 {text-align:left;}
 
 .reset h1,.reset h2,.reset h3,.reset h4,.reset h5,.reset h6
-{font-size:inherit;font-weight:normal;}
+{font-size:inherit;font-weight:normal;margin-bottom:10px;}
 
 .reset h1{font-size:2em;}
 .reset h2{font-size:1.5em;}

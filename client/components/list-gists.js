@@ -3,6 +3,11 @@ Template.listGists.helpers({
     return Gists.find({ ownerId: Meteor.userId() })
   }
 })
+Template.listStats.helpers({
+  gistCounter: function () {
+    return Files.find().count()
+  }
+})
 
 Template.listGists.events({
   'click .createGist': function (event) {

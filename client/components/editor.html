@@ -1,13 +1,15 @@
 <template name="editor">
 {{#if fileId}}
   <span class="files-subtitle">Currently editing</span>
-  <h3><span class="file-name" contentEditable="{{editable}}">{{filename}}</span></h3>
+  <h3 class="files-filename">
+    <span class="file-name" contentEditable="{{editable}}">{{filename}}</span>
+  </h3>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-6 nopadding">
         {{> sharejsCM docid=fileId onRender=config onConnect=setContent id="editor"}}
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-6 nopadding">
         <div id="preview" class="reset"></div>
       </div>
     </div>
