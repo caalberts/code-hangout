@@ -1,0 +1,19 @@
+<template name="navigation">
+  <nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left offcanvas" role="navigation">
+    <ul class="nav navmenu-nav">
+      <li><a class="icon-home" href="/profile">Dashboard</a></li>
+      <li><a class="icon-newgist" href="#">Create new gist</a></li>
+    </ul>
+  </nav>
+  <div class="navbar navbar-default">
+    <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target="#myNavmenu" data-canvas="body">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/">Code Hangout</a>
+    <p class="navbar-text navbar-right">
+      {{> loginButtons}}
+    </p>
+  </div>
+</template>

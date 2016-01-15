@@ -1,0 +1,34 @@
+<template name="fileList">
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Toggle File</th>
+          <th style="width:20%;text-align:center;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#if files}}
+        {{#each files}}
+          {{> fileItem}}
+        {{/each}}
+      {{/if}}
+      </tbody>
+    </table>
+
+    {{#if currentUser}}
+      <a class="btn btn-primary btn-lg btn-block create-file" href="#" role="button">Create a new file</a>
+    {{/if}}
+  </div>
+</template>
+
+<template name="fileItem">
+  <tr>
+    <td><a href="#" class="file">{{filename}}</a></td>
+    {{#if owner}}
+    <td>
+      <a class="btn btn-danger delete-file" href="#" role="button">Erase File</a>
+    </td>
+    {{/if}}
+  </tr>
+</template>

@@ -1,48 +1,46 @@
 Template.viewGist.onCreated(function () {
-  console.dir(this.data)
-
-  const filenames = Object.keys(this.data.files)
-  console.log(filenames)
-  filenames.forEach(filename => {
-
-    console.log('fetching raw files');
-    fetch(this.data.files[filename].raw_url)
-      .then(res => res.text())
-      .then(data => {
-        const fileObj = {
-          gistId: this.data.id,
-          filename: filename,
-          url: this.data.files.raw_url,
-          content: data
-        }
-        Session.set(filename, fileObj)
-      })
-  })
+  Session.set('gistOwnerId', this.data.ownerId)
+  Session.set('gistCollaborators', this.data.collaborators)
+  Session.set('isOwner', (Meteor.userId() === Session.get('gistOwnerId')))
+  const collaboratorIds = Session.get('gistCollaborators').map(user => user.githubId)
+  Session.set('allowEdit', Meteor.userId() ? collaboratorIds.indexOf(Meteor.user().services.github.id) >= 0 : false)
+  const file = Files.findOne({ gistId: Session.get('gistId') })
+  if (file) Session.set('fileId', file._id)
 })
 
 Template.viewGist.helpers({
-  files: function () {
-    const files = Object.keys(this.files)
-    return files.map(file => Session.get(file))
+  owner: function () {
+    return Session.get('isOwner')
+  },
+  allowEdit: function () {
+    return Session.get('allowEdit')
   }
 })
 
 Template.viewGist.events({
-  'submit form': function(event) {
-    event.preventDefault()
-    
-    const updateContent = {
-      files: {}
+  'focus .gist-description': function (event) {
+    Session.set('prevDesc', event.target.textContent)
+  },
+  'blur .gist-description': function (event) {
+    if (event.target.textContent !== Session.get('prevDesc')) {
+      Meteor.call('renameGist', this.gistId, event.target.textContent)
     }
-    updateContent.files[this.filename] = { content: event.target.gist.value }
+  },
+  "mouseover .gist-description": function(event, template) {
+    $('[data-toggle="tooltip"]').tooltip()
+  }
+})
 
-    const url = 'https://api.github.com/gists/' + this.gistId
-    const opts = {
-      method: 'PATCH',
-      headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
-      body: JSON.stringify(updateContent)
-    }
-    fetch(url, opts).then(res => console.log('success'))
-      .catch(console.error)
+Template.gistOptions.events({
+  // publish gist
+  'click .publish-gist': function (argument) {
+    Meteor.call('publishGist', this.gistId)
+  },
+  // delete gist
+  'click .delete-gist': function () {
+    Meteor.call('deleteGist', this.gistId, function (err, result) {
+      if (err) console.error(err)
+      Router.go('/profile')
+    })
   }
 })

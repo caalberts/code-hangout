@@ -1,13 +1,80 @@
 <template name="viewGist">
-  <h1>{{description}}</h1>
-  <h2>Files:</h2>
-  <div class="files">
-    {{#each files}}
-    <form id="{{filename}}-form">
-      <h3 name="filename">{{filename}}</h3>
-      <textarea name="gist" id="{{filename}}-content" value="{{content}}"></textarea>
-      <input type="submit" class="update" value="Update Gist"/>
-    </form>
-    {{/each}}
+  <div class="wrapper">
+    {{#if currentUser}}
+    <ol class="breadcrumb">
+      <li><a href="/profile">Dashboard</a></li>
+      <li class="active">Edit Gist</li>
+    </ol>
+    {{/if}}
+
+    {{#unless currentUser}}
+      {{> callToLogin}}
+    {{/unless}}
+
+    {{#if currentUser}}
+      <h3 class="gist-description" contentEditable="{{owner}}" data-toggle="tooltip" data-placement="top" title="Rename this gist">{{description}}</h3>
+    {{else}}
+      <h3 class="gist-description" contentEditable="{{owner}}">{{description}}</h3>
+    {{/if}}
+
+    <section class="text-editor">
+      {{> editor}}
+    </section>
+
+    {{> modal}}
   </div>
+</template>
+
+<template name="gistMenu">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+      <a href="#fileitems" aria-controls="fileitems" role="tab" data-toggle="tab">
+        Files in gist
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="#collabs" aria-controls="collabs" role="tab" data-toggle="tab">
+        Collaborators
+      </a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="fileitems">
+      <section class="files-in-gist">
+        {{> fileList}}
+      </section>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="collabs">
+      <section class="actions-list">
+        {{> actions}}
+      </section>
+      <section class="collabs-list">
+        {{> collaborators}}
+      </section>
+    </div>
+  </div>
+</template>
+
+<template name="modal">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Gist Settings</h4>
+        </div>
+        <div class="modal-body">
+          {{> gistMenu}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="gistOptions">
+  <button class="publish-gist btn btn-success">Publish Gist</button>
+  <button class="delete-gist btn btn-danger">Delete Gist</button>
 </template>

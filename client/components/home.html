@@ -1,0 +1,14 @@
+<template name="home">
+  <div class="jumbotron">
+    <div class="container">
+      <h2>Code together, and hangout!</h2>
+      <p>A collaborative real-time code editor for Github Gists.</p>
+      <p>Much instant, very wow, try it now!</p>
+      {{#if currentUser}}
+        &nbsp;
+      {{else}}
+        {{> loginButtons}}
+      {{/if}}
+    </div>
+  </div>
+</template>

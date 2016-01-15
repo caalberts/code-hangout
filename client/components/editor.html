@@ -1,0 +1,90 @@
+<template name="editor">
+{{#if fileId}}
+  <div class="edit-gist-subtitle">
+    {{#if currentUser}}
+      <span class="files-subtitle">Currently editing</span>
+    {{/if}}
+    <h3 class="files-filename">
+      {{#if currentUser}}
+        <span class="file-name" contentEditable="{{owner}}" data-toggle="tooltip" data-placement="top" title="Rename this gist">{{filename}}</span>
+      {{else}}
+        <span class="file-name" contentEditable="{{owner}}">{{filename}}</span>
+      {{/if}}
+    </h3>
+    {{#if owner}}
+
+    <!-- <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Action <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li class=""><a href="#" data-toggle="modal" data-target="#myModal">Settings</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Publish Gist</a></li>
+      </ul>
+    </div> -->
+
+    <button type="button" class="btn btn-primary btn-lg settings-btn" data-toggle="modal" data-target="#myModal">
+      View Settings
+    </button>
+    {{/if}}
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <p style="height: 2em;">
+          {{#if editors}}
+            <!-- {{#each editors}}
+              <span class="active-editor">{{this}}</span>
+            {{/each}} -->
+            <span class="active-editor">{{editors}}</span>
+            {{#if manyEditors}}are{{else}}is{{/if}} editing
+          {{/if}}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 nopadding">
+        {{> sharejsCM docid=fileId onRender=config onConnect=setContent id="editor"}}
+      </div>
+      <div class="col-sm-6 nopadding">
+        <div id="preview" class="reset"></div>
+      </div>
+    </div>
+    {{#if owner}}
+    <div class="" style="margin-top:10px;">
+      {{> gistOptions}}
+    </div>
+    {{/if}}
+  </div>
+{{else}}
+  {{#if owner}}
+  <div class="alert alert-danger" role="alert">
+    Please create a new file.
+  </div>
+  {{/if}}
+{{/if}}
+</template>
+
+<!--
+<template name="viewer">
+  <div class="col-sm-6">
+    <iframe id="viewer_iframe"></iframe>
+  </div>
+</template>
+
+<template name="editingUsers">
+  <div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Online Users</h3>
+  </div>
+  <div class="panel-body">
+    {{#each users}}
+      <span class="label label-primary">{{name}}</span>
+      {{lastEdit}}
+    {{/each}}
+  </div>
+</div>
+</template>
+-->

@@ -1,0 +1,36 @@
+.reset,.reset div,.reset dl,.reset dt,.reset dd,.reset ul,.reset ol,.reset li,.reset h1,.reset h2,.reset h3,.reset h4,.reset h5,.reset h6,.reset pre,.reset form,.reset fieldset,.reset input,.reset textarea,.reset p,.reset blockquote,.reset th,.reset td
+{margin:0;padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;}
+
+.reset table
+{border-collapse:collapse;border-spacing:0;}
+
+.reset fieldset,.reset img
+{border:0;}
+
+.reset address,.reset caption,.reset cite,.reset code,.reset dfn,.reset em,.reset strong,.reset th,.reset var
+{font-style:normal;font-weight:normal;}
+
+.reset ol,.reset ul
+{list-style:disc inside;}
+
+.reset ul ul {list-style:disc inside;padding: 5px 20px;margin: 5px 10px;}
+
+.reset caption,.reset th
+{text-align:left;}
+
+.reset h1,.reset h2,.reset h3,.reset h4,.reset h5,.reset h6
+{font-size:inherit;font-weight:normal;margin-bottom:10px;}
+
+.reset h1{font-size:2em;}
+.reset h2{font-size:1.5em;}
+.reset h3{font-size:1.17em;}
+.reset h4{font-size:1em;}
+.reset h5{font-size:0.83em;}
+.reset h6{font-size:0.75em;}
+
+.reset q:before,.reset q:after
+{content:'';}
+
+.reset abbr,.reset acronym{border:0;}
+
+.reset code{font-family: monospace, sans-serif;}

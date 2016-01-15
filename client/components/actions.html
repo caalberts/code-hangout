@@ -1,0 +1,21 @@
+<template name="actions">
+  {{#if currentUser}}
+  <!-- if currentUser === owner -->
+    <!-- show 'invite', 'save', 'publish' -->
+    <h4 style="margin:10px 0 5px 0;">Invite collaborators</h4>
+    <div class="">
+      <!-- <form id="invite" method="post"> -->
+        <input class="search-githublogin" type="text" name="githubLogin" value="" placeholder="Search for a Github user">
+        <!-- <input class="search-githubid" type="hidden" name="githubId" value=""> -->
+        <!-- <input class="btn btn-primary" type="submit" name="invite" value="Invite"> -->
+        <div>
+          {{#each results}}
+          <a class="search-result" data-github-id="{{this.githubId}}">{{this.githubLogin}}</a>
+          {{/each}}
+        </div>
+      <!-- </form> -->
+    </div>
+  <!-- if currentUser === collaborator -->
+    <!-- show 'save' -->
+  {{/if}}
+</template>

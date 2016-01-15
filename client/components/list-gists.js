@@ -1,28 +1,55 @@
-Meteor.subscribe('userData')
-
-Template.listGists.onCreated(function () {
-  const user = Meteor.user()
-  console.log(user.docs)
-
-  const header = {
-    Authorization: 'token ' + Meteor.user().services.github.accessToken
-  }
-
-  Promise.all(user.docs.map(doc => {
-    const url = 'https://api.github.com/gists/' + doc
-    return fetch(url, header).then(res => res.json())
-  })).then(data => Session.set('userGists', data))
-    .catch(console.error)
-})
-
 Template.listGists.helpers({
   gists: function () {
-    console.log('hello');
-    const myGists = Session.get('userGists')
-    return myGists
+    return Gists.find({ ownerId: Meteor.userId() })
+  },
+  collaborations: function () {
+    return Gists.find({
+      $and: [
+        {
+          collaborators: {
+            $in: [{
+              githubId: Meteor.user().services.github.id,
+              githubLogin: Meteor.user().services.github.username
+            }]
+          }
+        }, // id is in collaborators and
+        { ownerId: { $ne: Meteor.userId() } }  // user is not owner
+      ]
+    })
+  }
+})
+Template.listStats.helpers({
+  gistCounter: function () {
+    return Files.find().count()
   }
 })
 
 Template.listGists.events({
-
+  'click .createGist': function (event) {
+    const createGist = {
+      description: 'Untitled',
+      public: true,
+      files: {
+        'untitled': {
+          content: 'new content'
+        }
+      }
+    }
+    // publish new gist to github
+    const url = 'https://api.github.com/gists'
+    const opts = {
+      method: 'POST',
+      headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
+      body: JSON.stringify(createGist)
+    }
+    // call Github API to create gist
+    // and synchronize local gistId with gist id assigned by Github
+    window.fetch(url, opts).then(res => res.json())
+      .then(gist => {
+        Meteor.call('retrieveGistFiles', gist.id, (err, id) => {
+          if (err) console.error(err)
+          Router.go('/gist/' + id)
+        })
+      })
+  }
 })
