@@ -40,25 +40,27 @@ Meteor.methods({
           owner: gist.owner,
           ownerId: Meteor.userId(),
           files: filenames,
-          created_at: gist.created_at,
-          updated_at: gist.updated_at
+          created_at: Date.parse(gist.created_at),
+          updated_at: Date.parse(gist.updated_at)
         }
-        const oldGist = Gists.findOne({ gistId: gist.id })
-        const updatedGist = oldGist ? Object.assign({}, oldGist, newGist) : newGist
-        Gists.upsert({ gistId: gist.id }, updatedGist)
-        Meteor.call('addCollaborator', gist.id, gist.owner.login, gist.owner.id)
-        // update each file from origin into local
-        filenames.forEach(file => {
-          const fileObj = Object.assign(
-            {}, gist.files[file],
-            {
-              gistId: id,
-              ownerId: Meteor.userId()
-            })
-          Files.upsert({
-            $and: [{ filename: file }, { gistId: id }]
-          }, fileObj)
-        })
+        const oldGist = Gists.findOne({ gistId: gist.id }) || { updated_at: 0 }
+        if (newGist.updated_at > oldGist.updated_at) {
+          const updatedGist = oldGist ? Object.assign({}, oldGist, newGist) : newGist
+          Gists.upsert({ gistId: gist.id }, updatedGist)
+          Meteor.call('addCollaborator', gist.id, gist.owner.login, gist.owner.id)
+          // update each file from origin into local
+          filenames.forEach(file => {
+            const fileObj = Object.assign(
+              {}, gist.files[file],
+              {
+                gistId: id,
+                ownerId: Meteor.userId()
+              })
+            Files.upsert({
+              $and: [{ filename: file }, { gistId: id }]
+            }, fileObj)
+          })
+        }
         return gist.id
       })
   },
@@ -81,6 +83,10 @@ Meteor.methods({
       .then(res => {
         if (res.status === 200) {
           Gists.update({ gistId: gistId }, { $set: { description: newDescription } })
+          Gists.update(
+            { gistId: gistId },
+            { $set: { updated_at: Date.now() } }
+          )
         } else {
           throw new Error(res.status)
         }
@@ -158,6 +164,10 @@ Meteor.methods({
             { gistId: newFile.gistId },
             { $addToSet: { files: newFile.filename } }
           )
+          Gists.update(
+            { gistId: newFile.gistId },
+            { $set: { updated_at: Date.now() } }
+          )
           return id
         })
       })
@@ -193,6 +203,11 @@ Meteor.methods({
       { _id: fileId },
       { $set: { content: newContent } }
     )
+    const file = Files.findOne({ _id: fileId })
+    // Gists.update(
+    //   { gistId: file.gistId },
+    //   { $set: { updated_at: Date.now() } }
+    // )
   },
 
   deleteFile: function (gistId, fileId, filename) { // TODO add feature to delete file
@@ -213,6 +228,10 @@ Meteor.methods({
           Gists.update(
             { gistId: gistId },
             { $pull: { files: filename } }
+          )
+          Gists.update(
+            { gistId: gistId },
+            { $set: { updated_at: Date.now() } }
           )
           Files.remove({ _id: fileId })
         } else {

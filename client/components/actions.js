@@ -25,27 +25,13 @@ Template.actions.events({
   }, 300),
   // add github user to form
   'click .search-result': function (event) {
-    // document.querySelector('.search-githublogin').value = event.target.textContent
-    // document.querySelector('.search-githubid').value = event.target.getAttribute('data-github-id')
     Meteor.call(
       'addCollaborator',
-      this.gistId,
+      Session.get('gistId'),
       event.target.textContent,
       parseInt(event.target.getAttribute('data-github-id'), 10)
     )
     Session.set('searchUsers', null)
-  // },
-  // // add collaborator to the gist
-  // 'submit form': function (event) {
-  //   event.preventDefault()
-  //   Meteor.call(
-  //     'addCollaborator',
-  //     this.gistId,
-  //     event.target.githubLogin.value,
-  //     parseInt(event.target.githubId.value, 10)
-  //   )
-  //   document.querySelector('.search-githublogin').value = ''
-  //   document.querySelector('.search-githubid').value = ''
   }
 })
 
