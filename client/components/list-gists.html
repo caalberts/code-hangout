@@ -6,15 +6,17 @@
     </ol>
     <h3>Welcome back!</h3>
     <!-- <span class="github-username">{{currentUser.services.github.username}}</span> -->
+    <!-- {{> listStats}} -->
+
     <p class="gist-subtitle">Your Gists</p>
     <div class="gist-container">
       <div class="container-fluid">
         <div class="row">
           <ul class="gist-list">
+            <li class="col-sm-3"><a class="createGist" href="#">Create a new Gist</a></li>
             {{#each gists}}
               <li class="col-sm-3"><a href="/gist/{{gistId}}">{{description}}</a></li>
             {{/each}}
-              <li class="col-sm-3"><a class="createGist" href="#">Create a new Gist</a></li>
           </ul>
         </div>
       </div>
@@ -35,5 +37,18 @@
     {{else}}
       {{> callToLogin}}
     {{/if}}
+  </div>
+</template>
+
+<template name="listStats">
+  <div class="list-stats">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3">
+          <h2>{{gistCounter}}</h2>
+          <p>Total Gists</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
