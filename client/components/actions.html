@@ -4,16 +4,16 @@
   <!-- if currentUser === owner -->
     <!-- show 'invite', 'save', 'publish' -->
     <h4>Invite collaborators</h4>
-    <form id="invite" method="post">
-      <input class="search-githublogin" type="text" name="githubLogin" value="" placeholder="@githubusername">
-      <input class="search-githubid" type="hidden" name="githubId" value="">
-      <input class="btn btn-info" type="submit" name="invite" value="Invite">
+    <!-- <form id="invite" method="post"> -->
+      <input class="search-githublogin" type="text" name="githubLogin" value="" placeholder="search github username">
+      <!-- <input class="search-githubid" type="hidden" name="githubId" value=""> -->
+      <!-- <input class="btn btn-info" type="submit" name="invite" value="Invite"> -->
       <div>
         {{#each results}}
         <a class="search-result" data-github-id="{{this.githubId}}">{{this.githubLogin}}</a>
         {{/each}}
       </div>
-    </form>
+    <!-- </form> -->
     <button class="publish-gist btn btn-success">Publish Gist</button>
     <button class="delete-gist btn btn-danger">Delete Gist</button>
   <!-- if currentUser === collaborator -->
