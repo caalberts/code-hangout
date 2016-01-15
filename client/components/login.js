@@ -1,9 +1,9 @@
 Accounts.ui.config({
   requestPermissions: {
-    github: ['user', 'repo', 'gist']
+    github: ['user', 'public_gist']
   }
 })
-// 
+//
 // Accounts.onLogin(function () {
 //   Router.go('/profile')
 // })
