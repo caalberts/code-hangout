@@ -1,23 +1,69 @@
 <template name="editor">
-  {{#if fileId}}
-  <h3>Editing <span class="file-name" contentEditable={{owner}}>{{filename}}</span></h3>
-  <p>
-    {{#if editors}}
-      <!-- {{#each editors}}
-        <span class="active-editor">{{this}}</span>
-      {{/each}} -->
-      <span class="active-editor">{{editors}}</span>
-      {{#if manyEditors}}are{{else}}is{{/if}} editing
+{{#if fileId}}
+  <div class="edit-gist-subtitle">
+    {{#if currentUser}}
+      <span class="files-subtitle">Currently editing</span>
     {{/if}}
-  </p>
+    <h3 class="files-filename">
+      {{#if currentUser}}
+        <span class="file-name" contentEditable="{{owner}}" data-toggle="tooltip" data-placement="top" title="Rename this gist">{{filename}}</span>
+      {{else}}
+        <span class="file-name" contentEditable="{{owner}}">{{filename}}</span>
+      {{/if}}
+    </h3>
+    {{#if owner}}
 
-  <div class="col-sm-6">
-    {{> sharejsCM docid=fileId onRender=config onConnect=setContent id="editor"}}
+    <!-- <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Action <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li class=""><a href="#" data-toggle="modal" data-target="#myModal">Settings</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Publish Gist</a></li>
+      </ul>
+    </div> -->
+
+    <button type="button" class="btn btn-primary btn-lg settings-btn" data-toggle="modal" data-target="#myModal">
+      View Settings
+    </button>
+    {{/if}}
   </div>
-  {{else}}
-  <p>Please create a new file</p>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6 nopadding">
+        <p>
+          {{#if editors}}
+            <!-- {{#each editors}}
+              <span class="active-editor">{{this}}</span>
+            {{/each}} -->
+            <span class="active-editor">{{editors}}</span>
+            {{#if manyEditors}}are{{else}}is{{/if}} editing
+          {{/if}}
+        </p>
+
+        {{> sharejsCM docid=fileId onRender=config onConnect=setContent id="editor"}}
+      </div>
+      <div class="col-sm-6 nopadding">
+        <div id="preview" class="reset"></div>
+      </div>
+    </div>
+    {{#if owner}}
+    <div class="" style="margin-top:10px;">
+      {{> gistOptions}}
+    </div>
+    {{/if}}
+  </div>
+{{else}}
+  {{#if owner}}
+  <div class="alert alert-danger" role="alert">
+    Please create a new file.
+  </div>
   {{/if}}
+{{/if}}
 </template>
+
 <!--
 <template name="viewer">
   <div class="col-sm-6">
@@ -37,4 +83,5 @@
     {{/each}}
   </div>
 </div>
-</template> -->
+</template>
+-->

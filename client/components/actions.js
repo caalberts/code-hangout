@@ -33,6 +33,13 @@ Template.actions.events({
     )
     Session.set('searchUsers', null)
   }
+  // add collaborator to the gist
+  // 'submit form': function (event) {
+  //   event.preventDefault()
+  //
+  //   document.querySelector('.search-githublogin').value = ''
+  //   document.querySelector('.search-githubid').value = ''
+  // }
 })
 
 function searchGithubUsers (string) {

@@ -18,6 +18,11 @@ Template.listGists.helpers({
     })
   }
 })
+Template.listStats.helpers({
+  gistCounter: function () {
+    return Files.find().count()
+  }
+})
 
 Template.listGists.events({
   'click .createGist': function (event) {
