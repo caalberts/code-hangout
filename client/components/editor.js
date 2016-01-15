@@ -39,7 +39,6 @@ Template.editor.helpers({
       cm.setOption('lineNumbers', true)
       if (!Meteor.userId() || !Session.get('allowEdit')) {
         cm.setOption('readOnly', true)
-      } else {
       }
 
       // broadcast editors' editing activities
