@@ -77,25 +77,3 @@ Template.editor.events({
     }
   }
 })
-//
-// Template.editingUsers.helpers({
-//   users: function () {
-//     var doc, eusers, users
-//     doc = Documents.findOne()
-//     if (!doc) {
-//       return
-//     }
-//     eusers = EditingUsers.findOne()
-//     if (!eusers) {
-//       return
-//     }
-//
-//     users = []
-//     var i = 0
-//     for (var user_id in eusers.users) {
-//       users[i] = eusers.users[user_id]
-//       i++
-//     }
-//     return users
-//   }
-// })
