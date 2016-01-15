@@ -7,7 +7,7 @@ Meteor.publish('user', function () {
   }
 })
 Meteor.publish('gists', function () {
-  return Gists.find()
+  return Gists.find({ public: true })
 })
 Meteor.publish('files', function () {
   return Files.find()

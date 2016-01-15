@@ -35,6 +35,7 @@ Meteor.methods({
         const newGist = {
           gistId: gist.id,
           url: gist.url,
+          public: gist.public,
           description: gist.description,
           owner: gist.owner,
           ownerId: Meteor.userId(),
