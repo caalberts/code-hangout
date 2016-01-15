@@ -37,40 +37,29 @@ Template.editor.helpers({
       const file = Files.findOne({ _id: Session.get('fileId') })
 
       cm.setOption('lineNumbers', true)
-
-      if (!Meteor.userId()) {
+      if (!Meteor.userId() || !Session.get('allowEdit')) {
         cm.setOption('readOnly', true)
       } else {
-        const collaborators = Session.get('gistCollaborators')
-        if (collaborators) {
-          const collaboratorIds = collaborators.map(collaborator => collaborator.githubId)
-          const collaboratorIndex = collaboratorIds.indexOf(Meteor.user().services.github.id)
-          if ((collaboratorIndex < 0) && (Meteor.userId() !== Session.get('gistOwnerId'))) {
-            cm.setOption('readOnly', true)
-          }
-        }
       }
 
-      // cm.setValue(file.content)
-
-      cm.on('keydown', _.debounce(function (editor) {
-        Meteor.call('setEditLocation', Meteor.userId(), file._id, editor.doc.getCursor())
-        _.delay(function () {
-          Meteor.call('removeEditLocation', Meteor.userId(), file._id)
-        }, 3000)
-      }), 1000)
+      // broadcast editors' editing activities
+      if (Session.get('allowEdit')) {
+        cm.on('keydown', _.debounce(function (editor) {
+          Meteor.call('setEditLocation', Meteor.userId(), file._id, editor.doc.getCursor())
+          _.delay(function () {
+            Meteor.call('removeEditLocation', Meteor.userId(), file._id)
+          }, 3000)
+        }), 1000)
+      }
 
       // periodically update file object when there is a change in the editor
       cm.on('change', _.debounce(function (editor) {
         Meteor.call('updateFile', file._id, editor.getValue())
       }, 2000))
-
-      // log activities in edits
     }
   },
   setContent: function () {
     return function (cm) {
-      // console.log('set content');
       const file = Files.findOne({ _id: Session.get('fileId') })
       cm.setValue(file.content)
     }
