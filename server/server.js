@@ -35,6 +35,7 @@ Meteor.methods({
         const newGist = {
           gistId: gist.id,
           url: gist.url,
+          public: gist.public,
           description: gist.description,
           owner: gist.owner,
           ownerId: Meteor.userId(),
@@ -45,7 +46,7 @@ Meteor.methods({
         const oldGist = Gists.findOne({ gistId: gist.id })
         const updatedGist = oldGist ? Object.assign({}, oldGist, newGist) : newGist
         Gists.upsert({ gistId: gist.id }, updatedGist)
-
+        Meteor.call('addCollaborator', gist.id, gist.owner.login, gist.owner.id)
         // update each file from origin into local
         filenames.forEach(file => {
           const fileObj = Object.assign(
@@ -224,28 +225,21 @@ Meteor.methods({
       { gistId: gistId },
       { $pull: { collaborators: user } }
     )
-  }
+  },
 
-  // addEditingUser: function () {
-  //   var doc, user, eusers
-  //   doc = Documents.findOne()
-  //   if (!doc) {
-  //     return
-  //   }
-  //   if (!this.userId) {
-  //     return
-  //   }
-  //   user = Meteor.user().profile
-  //   eusers = EditingUsers.findOne({ docid: doc._id })
-  //   if (!eusers) {
-  //     eusers = {
-  //       docid: doc._id,
-  //       users: {}
-  //     }
-  //   }
-  //   user.lastEdit = new Date()
-  //   eusers.users[this.userId] = user
-  //
-  //   EditingUsers.upsert({ _id: eusers._id }, eusers)
-  // }
+  setEditLocation: function (userId, fileId, location) {
+    Edits.upsert(
+      { $and: [{ userId: userId }, { fileId: fileId }] },
+      {
+        fileId: fileId,
+        userId: userId,
+        username: Meteor.user().services.github.username,
+        location: location
+      }
+    )
+  },
+
+  removeEditLocation: function (userId, fileId) {
+    Edits.remove({ $and: [{ userId: userId }, { fileId: fileId }] })
+  }
 })

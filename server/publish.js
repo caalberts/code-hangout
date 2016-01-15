@@ -7,12 +7,14 @@ Meteor.publish('user', function () {
   }
 })
 Meteor.publish('gists', function () {
-  return Gists.find()
+  return Gists.find({ public: true })
 })
 Meteor.publish('files', function () {
   return Files.find()
 })
-
+Meteor.publish('edits', function () {
+  return Edits.find()
+})
 // TODO publish
 // - private gists and files for owner
 // - private gists and files for collaborators

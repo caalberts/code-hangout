@@ -373,3 +373,7 @@ a:hover {
 .table-responsive table tbody tr td:last-child{
 	text-align: center;
 }
+.current-edit {
+  font-weight: bold;
+  color: green;
+}

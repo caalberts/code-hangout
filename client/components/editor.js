@@ -11,14 +11,35 @@ Template.editor.events({
 
 Template.editor.helpers({
   owner: function () {
-    return (Meteor.userId() && (Meteor.userId() === Session.get('gistOwnerId')))
+    return Session.get('isOwner')
   },
   fileId: function () {
     return Session.get('fileId')
   },
+
   filename: function () {
     return Files.findOne({ _id: Session.get('fileId') }).filename
   },
+
+  editors: function () {
+    const editors = Edits.find({ fileId: Session.get('fileId') })
+    if (editors) {
+      const usernames = editors.map(editor => editor.username)
+      if (Meteor.userId()) {
+        return usernames.filter(username => username !== Meteor.user().services.github.username).join(', ')
+      } else {
+        return usernames.join(', ')
+      }
+    }
+  },
+
+  manyEditors: function () {
+    const list = Edits.find({ fileId: Session.get('fileId') })
+                      .map(editor => editor.username)
+    if (Meteor.userId()) return list.length > 2
+    else return list.length > 1
+  },
+
   config: function () {
     return function (cm) {
       var converter = new Showdown.converter();
@@ -28,52 +49,56 @@ Template.editor.helpers({
       cm.setOption('lineNumbers', true)
       cm.setOption('lineWrapping', true)
 
-      if (!Meteor.userId()) {
+      if (!Meteor.userId() || !Session.get('allowEdit')) {
         cm.setOption('readOnly', true)
-      } else {
-        const collaborators = Session.get('gistCollaborators')
-        if (collaborators) {
-          const collaboratorIds = collaborators.map(collaborator => collaborator.githubId)
-          const collaboratorIndex = collaboratorIds.indexOf(Meteor.user().services.github.id)
-          if ((collaboratorIndex < 0) && (Meteor.userId() !== Session.get('gistOwnerId'))) {
-            cm.setOption('readOnly', true)
-          }
-        }
       }
 
+      // broadcast editors' editing activities
+      if (Session.get('allowEdit')) {
+        cm.on('keydown', _.debounce(function (editor) {
+          Meteor.call('setEditLocation', Meteor.userId(), file._id, editor.doc.getCursor())
+          _.delay(function () {
+            Meteor.call('removeEditLocation', Meteor.userId(), file._id)
+          }, 3000)
+        }), 1000)
+      }
+
+      // if (!Meteor.userId()) {
+      //   cm.setOption('readOnly', true)
+      // } else {
+      //   const collaborators = Session.get('gistCollaborators')
+      //   if (collaborators) {
+      //     const collaboratorIds = collaborators.map(collaborator => collaborator.githubId)
+      //     const collaboratorIndex = collaboratorIds.indexOf(Meteor.user().services.github.id)
+      //     if ((collaboratorIndex < 0) && (Meteor.userId() !== Session.get('gistOwnerId'))) {
+      //       cm.setOption('readOnly', true)
+      //     }
+      //   }
+      // }
+
       // periodically update file object when there is a change in the editor
-      cm.doc.on('change', _.debounce(function (editor) {
+      cm.on('change', _.debounce(function (editor) {
         document.getElementById('preview').innerHTML = converter.makeHtml(editor.getValue())
         Meteor.call('updateFile', file._id, editor.getValue())
-      }, 500))
+      }, 2000))
     }
   },
   setContent: function () {
     return function (cm) {
       const file = Files.findOne({ _id: Session.get('fileId') })
-      cm.doc.setValue(file.content)
+      cm.setValue(file.content)
     }
   }
 })
-//
-// Template.editingUsers.helpers({
-//   users: function () {
-//     var doc, eusers, users
-//     doc = Documents.findOne()
-//     if (!doc) {
-//       return
-//     }
-//     eusers = EditingUsers.findOne()
-//     if (!eusers) {
-//       return
-//     }
-//
-//     users = []
-//     var i = 0
-//     for (var user_id in eusers.users) {
-//       users[i] = eusers.users[user_id]
-//       i++
-//     }
-//     return users
-//   }
-// })
+
+Template.editor.events({
+  'focus .file-name': function (event) {
+    Session.set('prevFileName', event.target.textContent)
+  },
+  'blur .file-name': function (event) {
+    if (event.target.textContent !== Session.get('prevFileName')) {
+      // TODO follow up with Github support on 500 error
+      // Meteor.call('renameFile', this.gistId, Session.get('fileId'), Session.get('prevFileName'), event.target.textContent)
+    }
+  }
+})
