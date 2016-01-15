@@ -14,15 +14,22 @@ Template.editor.helpers({
   },
 
   editors: function () {
-    const edits = Edits.find({ fileId: Session.get('fileId')})
-    if (edits) {
-      return edits.map(edit => edit.username)
+    const editors = Edits.find({ fileId: Session.get('fileId') })
+    if (editors) {
+      const usernames = editors.map(editor => editor.username)
+      if (Meteor.userId()) {
+        return usernames.filter(username => username !== Meteor.user().services.github.username).join(', ')
+      } else {
+        return usernames.join(', ')
+      }
     }
   },
 
   manyEditors: function () {
-    const edits = Edits.find({ fileId: Session.get('fileId')})
-    return edits.length > 1
+    const list = Edits.find({ fileId: Session.get('fileId') })
+                      .map(editor => editor.username)
+    if (Meteor.userId()) return list.length > 2
+    else return list.length > 1
   },
 
   config: function () {
@@ -48,7 +55,7 @@ Template.editor.helpers({
 
       cm.on('keydown', _.debounce(function (editor) {
         Meteor.call('setEditLocation', Meteor.userId(), file._id, editor.doc.getCursor())
-        _.delay(function() {
+        _.delay(function () {
           Meteor.call('removeEditLocation', Meteor.userId(), file._id)
         }, 3000)
       }), 1000)
