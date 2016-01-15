@@ -32,8 +32,8 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-6 nopadding">
-        <p>
+      <div class="col-sm-12">
+        <p style="height: 2em;">
           {{#if editors}}
             <!-- {{#each editors}}
               <span class="active-editor">{{this}}</span>
@@ -42,7 +42,10 @@
             {{#if manyEditors}}are{{else}}is{{/if}} editing
           {{/if}}
         </p>
-
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 nopadding">
         {{> sharejsCM docid=fileId onRender=config onConnect=setContent id="editor"}}
       </div>
       <div class="col-sm-6 nopadding">
