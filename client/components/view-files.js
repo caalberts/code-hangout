@@ -12,22 +12,22 @@ Template.fileList.helpers({
 Template.fileList.events({
   'click .create-file': function (event) {
     event.preventDefault()
-
     const newFile = {
       filename: 'untitled',
       content: 'new content',
       gistId: this.gistId,
-      ownerId: Meteor.userId()
+      ownerId: this.ownerId
     }
-    Meteor.call('createFile', newFile)
-
-    const newFileId = Files.findOne(
-      { $and: [
-        { gistId: newFile.gistId },
-        { filename: newFile.filename }
-      ] }
-    )._id
-    Session.set('fileId', newFileId)
+    Meteor.call('createFile', this.gistId, newFile, (err, result) => {
+      if (err) console.err(err)
+      const newFileId = Files.findOne(
+        { $and: [
+          { gistId: newFile.gistId },
+          { filename: newFile.filename }
+        ] }
+      )
+      Session.set('fileId', newFileId._id)
+    })
   }
 })
 
@@ -46,6 +46,9 @@ Template.fileItem.events({
   'click a.delete-file': function (event) {
     event.preventDefault()
     Meteor.call('deleteFile', this.gistId, this._id, this.filename)
-    Session.set('fileId', null)
+    // fallback to other files in the gist
+    const fallbackFile = Files.findOne({ gistId: this.gistId })
+    if (fallbackFile) Session.set('fileId', fallbackFile._id)
+    else Session.set('fileId', null)
   }
 })

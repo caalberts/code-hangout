@@ -138,15 +138,30 @@ Meteor.methods({
     }
   },
 
-  createFile: function (newFile, callback) {
-    Files.insert(newFile, function (err, id) {
-      if (err) throw err
-      Gists.update(
-        { gistId: newFile.gistId },
-        { $addToSet: { files: newFile.filename } }
-      )
-      return id
-    })
+  createFile: function (gistId, newFile) {
+    const url = 'https://api.github.com/gists/' + gistId
+    const githubFile = {
+      files: {}
+    }
+    githubFile.files[newFile.filename] = { content: newFile.content }
+    const opts = {
+      method: 'PATCH',
+      headers: { Authorization: 'token ' + Meteor.user().services.github.accessToken },
+      body: JSON.stringify(githubFile)
+    }
+    return fetch(url, opts)
+      .then(res => res.json())
+      .then(data => {
+        return Files.insert(newFile, function (err, id) {
+          if (err) throw err
+          Gists.update(
+            { gistId: newFile.gistId },
+            { $addToSet: { files: newFile.filename } }
+          )
+          return id
+        })
+      })
+      .catch(console.error)
   },
 
   // renameFile: function (gistId, fileId, oldName, newName) {
