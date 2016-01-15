@@ -89,6 +89,10 @@ a {
 a:hover {
 	text-decoration: none;
 }
+.nopadding {
+   padding-right: 5px !important;
+   padding-left: 5px !important;
+}
 /* Navigation Styling */
 .navbar-default {
     background-color: #3c4451;
@@ -136,7 +140,7 @@ a:hover {
 }
 
 /* icons */
-.navmenu-nav > li > a:before {
+.navmenu-nav > li > a:before, .files-filename:before{
   display: inline-block;
   width: 60px;
   text-align: center;
@@ -149,15 +153,20 @@ a:hover {
   speak: none;
   -webkit-font-smoothing: antialiased;
 }
-
 .icon-home:before {
-  content: "\f015"
+  content: "\f015";
 }
 .icon-newgist:before {
-  content: "\f0f6"
+  content: "\f0f6";
 }
 
 /* Homepage - Jumbotron */
+.login-display-name:before{
+	content: 'Hello ';
+}
+.login-display-name:after{
+	content: '!';
+}
 .login-button, .login-display-name{
 	font-family: 'Lato', sans-serif !important;
 }
@@ -173,7 +182,7 @@ a:hover {
 
 .jumbotron {
 	text-align: center;
-	background: #000 url('../../images/jumbo-bg.jpg') 50% 50% no-repeat;
+	background: #34c2d8 url('../../images/jumbo-bg.jpg') 50% 50% no-repeat;
 	background-size: cover;
   padding-top: 60px;
   padding-bottom: 60px;
@@ -204,7 +213,15 @@ a:hover {
 .wrapper h3{
 	padding-bottom: 5px;
 	margin-bottom: 10px;
-	border-bottom: 1px solid #ddd;
+}
+.list-stats {
+	padding: 25px;
+	background: #fff;
+	border-radius: 3px;
+	margin-bottom: 20px;
+}
+.list-stats h2 {
+	/*font-size:*/
 }
 
 /* Gist Page - View Gist */
@@ -219,6 +236,7 @@ a:hover {
 .gist-container {
 	background: #fff;
 	padding: 15px 0;
+	margin-bottom: 15px;
 }
 .gist-container ul li {
 	margin-bottom: 15px;
@@ -237,10 +255,10 @@ a:hover {
 .gist-container ul li a:hover {
 	background: #204e75;
 }
-.gist-container ul li:last-child a {
+.gist-container ul li a.createGist {
 	background: #75ba50;
 }
-.gist-container ul li:last-child a:hover {
+.gist-container ul li a.createGist:hover {
 	background: #4f8233;
 }
 .gist-container ul li a:after {
@@ -254,10 +272,10 @@ a:hover {
   color: rgba(255, 255, 255, 0.1);
 }
 @media (max-width: 767px) {
-	.gist-container ul li a{
+	.gist-container ul li a {
 		min-height: inherit;
 	}
-	.gist-container ul li a:after{
+	.gist-container ul li a:after {
 		content: none;
 	}
 }
@@ -265,6 +283,96 @@ a:hover {
 	clear: left;
 }
 
+/* Code Editor */
+#preview {
+	width: 100%;
+	padding: 15px;
+	max-height:400px;
+	background: #fff;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	word-wrap: break-word;
+}
+.CodeMirror, #preview {
+	box-sizing: border-box;
+	border: 1px solid #ddd;
+}
+@media (max-width: 767px) {
+	.CodeMirror {
+		display: none;
+	}
+}
+.edit-gist-subtitle {
+  border-top: 1px solid #ddd;
+  /*border-bottom: 1px solid #ddd;*/
+	position: relative;
+	padding: 10px 0;
+}
+.settings-btn {
+	position: absolute;
+	top: 20px;
+	right: 0;
+	font-size: 15px;
+	letter-spacing: .5px;
+}
+.settings-btn:before {
+	content: '\f013';
+	font-family: 'FontAwesome';
+	display: inline-block;
+	padding-right:3px;
+}
+.files-subtitle {
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  display: inline-block;
+	margin-bottom:5px;
+  letter-spacing: 1px;
+	color:#bcbcbc;
+}
+.files-filename {
+	font-size: 1.2em;
+}
+.files-filename span {
+	vertical-align: middle;
+}
+.files-filename:before {
+	content: "\f0f6";
+	width: 18px;
+	margin-right:4px;
+	font-size: 16px;
+}
+.gist-description:hover, .file-name:hover {
+	background: #f9f9f9;
+	border-radius: 3px;
+	border: 1px solid rgba(0,0,0,0.1);
+	box-sizing: border-box;
+}
+
+/* Gist Menu */
+.nav-tabs>li {
+	width: 50%;
+	text-align: center;
+}
+.nav-tabs li:first-child a:before,
+.nav-tabs li:last-child a:before {
+	display: inline-block;
+	font-family: "FontAwesome";
+	position: relative;
+	padding-right: 5px;
+}
+.nav-tabs li:first-child a:before {
+	content: "\f0c5";
+}
+.nav-tabs li:last-child a:before {
+	content: "\f007";
+}
+.table-responsive table{
+	margin-top: 10px;
+}
+.table-responsive table tbody tr td:last-child{
+	text-align: center;
+}
 .current-edit {
   font-weight: bold;
   color: green;

@@ -1,10 +1,18 @@
 /* global _ */
 
+Template.editor.events({
+  'click #preview': function (event) {
+    return false
+  },
+  "mouseover .file-name": function(event, template) {
+    $('[data-toggle="tooltip"]').tooltip()
+  }
+})
+
 Template.editor.helpers({
   owner: function () {
     return Session.get('isOwner')
   },
-
   fileId: function () {
     return Session.get('fileId')
   },
@@ -34,9 +42,13 @@ Template.editor.helpers({
 
   config: function () {
     return function (cm) {
+      var converter = new Showdown.converter();
       const file = Files.findOne({ _id: Session.get('fileId') })
 
+      cm.setSize('100%', 400)
       cm.setOption('lineNumbers', true)
+      cm.setOption('lineWrapping', true)
+
       if (!Meteor.userId() || !Session.get('allowEdit')) {
         cm.setOption('readOnly', true)
       }
@@ -51,8 +63,22 @@ Template.editor.helpers({
         }), 1000)
       }
 
+      // if (!Meteor.userId()) {
+      //   cm.setOption('readOnly', true)
+      // } else {
+      //   const collaborators = Session.get('gistCollaborators')
+      //   if (collaborators) {
+      //     const collaboratorIds = collaborators.map(collaborator => collaborator.githubId)
+      //     const collaboratorIndex = collaboratorIds.indexOf(Meteor.user().services.github.id)
+      //     if ((collaboratorIndex < 0) && (Meteor.userId() !== Session.get('gistOwnerId'))) {
+      //       cm.setOption('readOnly', true)
+      //     }
+      //   }
+      // }
+
       // periodically update file object when there is a change in the editor
       cm.on('change', _.debounce(function (editor) {
+        document.getElementById('preview').innerHTML = converter.makeHtml(editor.getValue())
         Meteor.call('updateFile', file._id, editor.getValue())
       }, 2000))
     }

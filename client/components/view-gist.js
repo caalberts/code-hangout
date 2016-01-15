@@ -23,5 +23,8 @@ Template.viewGist.events({
     if (event.target.textContent !== Session.get('prevDesc')) {
       Meteor.call('renameGist', this.gistId, event.target.textContent)
     }
+  },
+  "mouseover .gist-description": function(event, template) {
+    $('[data-toggle="tooltip"]').tooltip()
   }
 })
