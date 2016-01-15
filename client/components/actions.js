@@ -7,18 +7,6 @@ Template.actions.helpers({
 })
 
 Template.actions.events({
-  // publish gist
-  'click .publish-gist': function (argument) {
-    Meteor.call('publishGist', this.gistId)
-  },
-  // delete gist
-  'click .delete-gist': function () {
-    Meteor.call('deleteGist', this.gistId, function (err, result) {
-      if (err) console.error(err)
-      Router.go('/profile')
-    })
-  },
-
   // search github users
   'keyup .search-githublogin': _.debounce(function (event) {
     searchGithubUsers(event.target.value)
@@ -33,13 +21,6 @@ Template.actions.events({
     )
     Session.set('searchUsers', null)
   }
-  // add collaborator to the gist
-  // 'submit form': function (event) {
-  //   event.preventDefault()
-  //
-  //   document.querySelector('.search-githublogin').value = ''
-  //   document.querySelector('.search-githubid').value = ''
-  // }
 })
 
 function searchGithubUsers (string) {

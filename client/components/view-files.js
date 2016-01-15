@@ -1,8 +1,3 @@
-Template.fileList.onCreated(function () {
-  const file = Files.findOne({ gistId: Session.get('gistId') })
-  if (file) Session.set('fileId', file._id)
-})
-
 Template.fileList.helpers({
   files: function () {
     return Files.find({ gistId: this.gistId })

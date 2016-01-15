@@ -78,7 +78,9 @@ Template.editor.helpers({
 
       // periodically update file object when there is a change in the editor
       cm.on('change', _.debounce(function (editor) {
-        document.getElementById('preview').innerHTML = converter.makeHtml(editor.getValue())
+        if (document.getElementById('preview')) {
+          document.getElementById('preview').innerHTML = converter.makeHtml(editor.getValue())
+        }
         Meteor.call('updateFile', file._id, editor.getValue())
       }, 2000))
     }
