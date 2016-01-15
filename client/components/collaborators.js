@@ -4,7 +4,7 @@ Template.collaborators.helpers({
     return gist.collaborators
   },
   owner: function () {
-    return (Meteor.userId() && (Meteor.userId() === Session.get('gistOwnerId')))
+    return Session.get('isOwner')
   }
 })
 

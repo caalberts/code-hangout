@@ -1,12 +1,17 @@
 Template.viewGist.onCreated(function () {
-  console.log(this)
   Session.set('gistOwnerId', this.data.ownerId)
   Session.set('gistCollaborators', this.data.collaborators)
+  Session.set('isOwner', (Meteor.userId() === Session.get('gistOwnerId')))
+  const collaboratorIds = Session.get('gistCollaborators').map(user => user.githubId)
+  Session.set('allowEdit', Meteor.userId() ? collaboratorIds.indexOf(Meteor.user().services.github.id) >= 0 : false)
 })
 
 Template.viewGist.helpers({
   owner: function () {
-    return (Meteor.userId() && (Meteor.userId() === Session.get('gistOwnerId')))
+    return Session.get('isOwner')
+  },
+  allowEdit: function () {
+    return Session.get('allowEdit')
   }
 })
 

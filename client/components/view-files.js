@@ -33,7 +33,7 @@ Template.fileList.events({
 
 Template.fileItem.helpers({
   owner: function () {
-    return (Meteor.userId() && (Meteor.userId() === Session.get('gistOwnerId')))
+    return Session.get('isOwner')
   }
 })
 

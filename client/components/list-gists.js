@@ -4,12 +4,17 @@ Template.listGists.helpers({
   },
   collaborations: function () {
     return Gists.find({
-      collaborators: {
-        $in: [{
-          githubId: Meteor.user().services.github.id,
-          githubLogin: Meteor.user().services.github.username
-        }]
-      }
+      $and: [
+        {
+          collaborators: {
+            $in: [{
+              githubId: Meteor.user().services.github.id,
+              githubLogin: Meteor.user().services.github.username
+            }]
+          }
+        }, // id is in collaborators and
+        { ownerId: { $ne: Meteor.userId() } }  // user is not owner
+      ]
     })
   }
 })
