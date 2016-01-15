@@ -49,6 +49,11 @@
         <div id="preview" class="reset"></div>
       </div>
     </div>
+    {{#if owner}}
+    <div class="" style="margin-top:10px;">
+      {{> gistOptions}}
+    </div>
+    {{/if}}
   </div>
 {{else}}
   {{#if owner}}
