@@ -5,7 +5,7 @@
 
 Collaborative gist editor built with Meteor. Try it at [http://codehangout.meteor.com](http://codehangout.meteor.com)
 
-[![Code Hangout screenshot]()](http://codehangout.meteor.com)
+[![Code Hangout screenshot](/images/screenshot.png)](http://codehangout.meteor.com)
 
 ## Features
 
@@ -27,6 +27,7 @@ Collaborative gist editor built with Meteor. Try it at [http://codehangout.meteo
 1. Identify problem - collaboration potential on Gists
 2. Research tools - real-time, text editor
 3. Implement Meteor + ShareJS + Codemirror library
+4. Visual and interaction design
 
 ## Outstanding Issues
 
