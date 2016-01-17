@@ -5,7 +5,7 @@
 
 Collaborative gist editor built with Meteor. Try it at [http://codehangout.meteor.com](http://codehangout.meteor.com)
 
-[![Code Hangout screenshot](/images/screenshot.png)](http://codehangout.meteor.com)
+[![Code Hangout screenshot](/public/images/screenshot.png)](http://codehangout.meteor.com)
 
 ## Features
 
