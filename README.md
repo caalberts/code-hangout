@@ -28,12 +28,12 @@ A collaborative gist editor built with Meteor. Try it at [http://codehangout.met
 1. Identify problem - collaboration potential on Gists
   - Process notes: [link](https://gist.github.com/calvintan/389ea997f0c66304717e#file-code-hangout-process-md)
 2. Research tools - real-time, text editor
-3. Implement Meteor + ShareJS + Codemirror library
+3. Implement Meteor + ShareJS + CodeMirror library
 4. Visual and interaction design
 
 ### Problems Faced
 
-- Notes on problems encountered and how they were solve: [link](https://gist.github.com/calvintan/389ea997f0c66304717e#file-code-hangout-learning-md)
+- Problems encountered and solutions: [link](https://gist.github.com/calvintan/389ea997f0c66304717e#file-code-hangout-learning-md)
 
 ## Outstanding Issues
 
