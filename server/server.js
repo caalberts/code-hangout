@@ -204,10 +204,10 @@ Meteor.methods({
       { $set: { content: newContent } }
     )
     const file = Files.findOne({ _id: fileId })
-    // Gists.update(
-    //   { gistId: file.gistId },
-    //   { $set: { updated_at: Date.now() } }
-    // )
+    Gists.update(
+      { gistId: file.gistId },
+      { $set: { updated_at: Date.now() } }
+    )
   },
 
   deleteFile: function (gistId, fileId, filename) { // TODO add feature to delete file

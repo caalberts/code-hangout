@@ -3,10 +3,6 @@ Accounts.ui.config({
     github: ['user', 'gist']
   }
 })
-//
-// Accounts.onLogin(function () {
-//   Router.go('/profile')
-// })
 
 Template.login.helpers({
   currentUser: function () {
