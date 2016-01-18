@@ -3,9 +3,13 @@
 [![Join the chat at https://gitter.im/caalberts/code-hangout](https://badges.gitter.im/caalberts/code-hangout.svg)](https://gitter.im/caalberts/code-hangout?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Stories in Ready](https://badge.waffle.io/caalberts/code-hangout.png?label=ready&title=Ready)](https://waffle.io/caalberts/code-hangout)
 
-Collaborative gist editor built with Meteor. Try it at [http://codehangout.meteor.com](http://codehangout.meteor.com)
+Collaborative gist editor built with Meteor.
 
-[![Code Hangout screenshot](/images/screenshot.png)](http://codehangout.meteor.com)
+[![Code Hangout screenshot](/public/images/screenshot.png)](http://codehangout.meteor.com)
+
+## Usage
+
+Try it at [http://codehangout.meteor.com](http://codehangout.meteor.com) or clone this repo to start a local meteor instance.
 
 ## Features
 
@@ -18,16 +22,26 @@ Collaborative gist editor built with Meteor. Try it at [http://codehangout.meteo
 
 ## Libraries, Frameworks and APIs Used
 
-1. Meteor
-2. ShareJS / CodeMirror
-3. Github Gist API
+1. [Meteor](https://www.meteor.com/)
+2. [ShareJS](https://github.com/share/sharejs)
+3. [CodeMirror](http://codemirror.net/)
+4. [Github Gist API](https://developer.github.com/v3/gists/)
+5. [showdown](https://github.com/showdownjs/showdown)
+6. [iron router](http://iron-meteor.github.io/iron-router/)
 
-## Approach
+## Approach and Implementation
 
 1. Identify problem - collaboration potential on Gists
 2. Research tools - real-time, text editor
-3. Implement Meteor + ShareJS + Codemirror library
-4. Visual and interaction design
+3. Meteor, ShareJS and Codemirror forms the foundation of the real time collaborative text editor.
+4. Gists documents are retrieved and published to Github through Github Gists API
+5. Client side routing using iron router to show user's dashboard and gists.
+6. Markdown files are rendered to HTML using showdown
+6. Visual and interaction design
+
+## Challenges
+
+
 
 ## Outstanding Issues
 
