@@ -62,8 +62,8 @@ html {
 body {
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 1.4;
-	background: #f3f3f3;
-
+	/*background: #f3f3f3;*/
+	background: #ededed;
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -95,7 +95,7 @@ a:hover {
 }
 /* Navigation Styling */
 .navbar-default {
-    background-color: #3c4451;
+    background-color: #0a283b;
     border: 0;
 }
 .navbar-default .navbar-toggle {
@@ -116,7 +116,10 @@ a:hover {
 }
 .navbar-brand {
   font-family: 'Montserrat', sans-serif;
-  color: #fff;
+  color: #cecece !important;
+}
+.navbar-brand:hover {
+  color: #f9f9f9;
 }
 .navbar-toggle {
   float: left;
@@ -128,12 +131,18 @@ a:hover {
     display: block; /* force showing the toggle */
   }
 }
+.nav > li {
+	border-bottom: #233e4f;
+}
 .nav > li > a {
   padding: 13px 15px;
 }
 .navmenu-default {
-    background-color: #3c4451;
+    background-color: #0a283b;
     border-color: #2c3e50;
+}
+.navmenu-nav > li > a:focus {
+    color: #333;
 }
 .navmenu-default .navmenu-nav > li > a:hover {
   color: #ddd;
@@ -190,7 +199,7 @@ a:hover {
 }
 .jumbotron h2{
 	margin-bottom: 30px;
-	color: #3d4653;
+	color: #0a283b;
 }
 .jumbotron p {
 	margin-bottom: 0;
@@ -205,6 +214,7 @@ a:hover {
 	background: none;
 	margin-bottom: 10px;
 	font-size: 12px;
+	letter-spacing: .3px;
 	text-transform: uppercase;
 }
 .wrapper {
@@ -231,12 +241,13 @@ a:hover {
 	color: #fff;
 	background: #bbb;
 	padding: 15px;
-	border-radius: 3px 3px 0 0;
+	border-radius: 5px 5px 0 0;
 }
 .gist-container {
 	background: #fff;
-	padding: 15px 0;
-	margin-bottom: 15px;
+	padding: 15px 0 0 0;
+	margin-bottom: 20px;
+	border-radius: 0 0 5px 5px;
 }
 .gist-container ul li {
 	margin-bottom: 15px;
