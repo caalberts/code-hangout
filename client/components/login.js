@@ -1,6 +1,6 @@
 Accounts.ui.config({
   requestPermissions: {
-    github: ['user', 'public_gist']
+    github: ['user', 'gist']
   }
 })
 //
