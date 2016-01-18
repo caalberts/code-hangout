@@ -1,6 +1,7 @@
 # Code Hangout
 
 [![Join the chat at https://gitter.im/caalberts/code-hangout](https://badges.gitter.im/caalberts/code-hangout.svg)](https://gitter.im/caalberts/code-hangout?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Stories in Ready](https://badge.waffle.io/caalberts/code-hangout.png?label=ready&title=Ready)](https://waffle.io/caalberts/code-hangout)
 
 Collaborative gist editor built with Meteor.
@@ -32,6 +33,7 @@ Try it at [http://codehangout.meteor.com](http://codehangout.meteor.com) or clon
 ## Approach and Implementation
 
 1. Identify problem - collaboration potential on Gists
+  - Process notes: [link](https://gist.github.com/calvintan/389ea997f0c66304717e#file-code-hangout-process-md)
 2. Research tools - real-time, text editor
 3. Meteor, ShareJS and Codemirror forms the foundation of the real time collaborative text editor.
 4. Gists documents are retrieved and published to Github through Github Gists API
@@ -42,6 +44,10 @@ Try it at [http://codehangout.meteor.com](http://codehangout.meteor.com) or clon
 ## Challenges
 
 
+
+### Problems Faced
+
+- Notes on problems encountered and how they were solve: [link](https://gist.github.com/calvintan/389ea997f0c66304717e#file-code-hangout-learning-md)
 
 ## Outstanding Issues
 
