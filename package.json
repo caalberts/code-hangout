@@ -14,8 +14,9 @@
     "globals": [
       "Meteor", "Template", "Accounts",
       "Router", "Session", "Mongo", "$",
-      "Gists", "Files", "Documents", "EditingUsers"
-    ]
+      "Gists", "Files", "Edits", "Showdown", "WebFontConfig"
+    ],
+    "ignore": [ "packages/", "client/stylesheet/fonts.js"]
   },
   "repository": {
     "type": "git",
