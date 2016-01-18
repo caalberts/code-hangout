@@ -18,17 +18,15 @@
   },
   "standard": {
     "globals": [
-      "Meteor",
-      "Template",
-      "Accounts",
-      "Router",
-      "Session",
-      "Mongo",
-      "$",
-      "Gists",
-      "Files",
-      "Documents",
-      "EditingUsers"
+      "Meteor", "Template", "Accounts",
+      "Router", "Session", "Mongo", "$",
+      "Gists", "Files", "Edits", "Showdown", "WebFontConfig"
+    ],
+    "ignore": [
+      "packages/",
+      "phantom_runner.js",
+      "start_test.js",
+      "client/stylesheet/fonts.js"
     ]
   },
   "repository": {

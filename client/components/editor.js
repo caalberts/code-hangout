@@ -4,7 +4,7 @@ Template.editor.events({
   'click #preview': function (event) {
     return false
   },
-  "mouseover .file-name": function(event, template) {
+  'mouseover .file-name': function (event, template) {
     $('[data-toggle="tooltip"]').tooltip()
   }
 })
@@ -42,7 +42,7 @@ Template.editor.helpers({
 
   config: function () {
     return function (cm) {
-      var converter = new Showdown.converter();
+      var converter = new Showdown.converter() // eslint-disable-line new-cap
       const file = Files.findOne({ _id: Session.get('fileId') })
 
       cm.setSize('100%', 400)
