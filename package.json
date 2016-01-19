@@ -14,7 +14,7 @@
     "standard": "^5.4.1"
   },
   "scripts": {
-    "test": "mocha ./tests --compilers js:babel-register"
+    "test": "standard && meteor --test --release velocity:METEOR@1.1.0.2_2"
   },
   "standard": {
     "globals": [
