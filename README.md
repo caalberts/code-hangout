@@ -1,7 +1,7 @@
 # Code Hangout
 
+[![Travis](https://img.shields.io/travis/caalberts/code-hangout.svg?style=flat-square)](https://travis-ci.org/caalberts/code-hangout)
 [![Join the chat at https://gitter.im/caalberts/code-hangout](https://badges.gitter.im/caalberts/code-hangout.svg)](https://gitter.im/caalberts/code-hangout?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![Stories in Ready](https://badge.waffle.io/caalberts/code-hangout.png?label=ready&title=Ready)](https://waffle.io/caalberts/code-hangout)
 
 Collaborative gist editor built with Meteor.
@@ -43,11 +43,7 @@ Try it at [http://codehangout.meteor.com](http://codehangout.meteor.com) or clon
 
 ## Challenges
 
-
-
-### Problems Faced
-
-- Notes on problems encountered and how they were solve: [link](https://gist.github.com/calvintan/389ea997f0c66304717e#file-code-hangout-learning-md)
+- Notes on problems encountered and how they were solved: [link](https://gist.github.com/calvintan/389ea997f0c66304717e#file-code-hangout-learning-md)
 
 ## Outstanding Issues
 
