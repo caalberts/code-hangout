@@ -35,7 +35,7 @@ Try it at [http://codehangout.meteor.com](http://codehangout.meteor.com) or clon
 1. Identify problem - collaboration potential on Gists
   - Process notes: [link](https://gist.github.com/calvintan/389ea997f0c66304717e#file-code-hangout-process-md)
 2. Research tools - real-time, text editor
-3. Meteor, ShareJS and Codemirror forms the foundation of the real time collaborative text editor.
+3. Meteor, ShareJS and CodeMirror forms the foundation of the real time collaborative text editor.
 4. Gists documents are retrieved and published to Github through Github Gists API
 5. Client side routing using iron router to show user's dashboard and gists.
 6. Markdown files are rendered to HTML using showdown
@@ -43,11 +43,9 @@ Try it at [http://codehangout.meteor.com](http://codehangout.meteor.com) or clon
 
 ## Challenges
 
-
-
 ### Problems Faced
 
-- Notes on problems encountered and how they were solve: [link](https://gist.github.com/calvintan/389ea997f0c66304717e#file-code-hangout-learning-md)
+- Problems encountered and solutions: [link](https://gist.github.com/calvintan/389ea997f0c66304717e#file-code-hangout-learning-md)
 
 ## Outstanding Issues
 
