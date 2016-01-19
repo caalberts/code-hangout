@@ -4,6 +4,9 @@ node_js:
   - 5
 before_install:
   - "curl -L http://git.io/ejPSng | /bin/sh"
+  - "rm -rf packages/npm-container"
+  - "meteor remove npm-container"
+  - "meteor update meteorhacks:npm"
 # after_script:
 #   - npm run codecov
 notifications:
