@@ -1,14 +1,18 @@
-/* global sinon chai describe it before Meteor Files Gists fetch */
+/* eslint-disable no-undef */
+/* eslint-disable no-native-reassign */
+
 const expect = chai.expect
+const fetch = sinon.stub()
 const OK = 200
 let origMeteor
 let origGists
 let origFiles
+let json
 
 describe('retrieve Gist', function () {
   before(done => {
     // stub fetch
-    const json = {
+    json = {
       'description': 'description of gist',
       'public': true,
       'owner': {
@@ -35,7 +39,7 @@ describe('retrieve Gist', function () {
       status: 200,
       json: () => json
     }
-    fetch = sinon.stub().returns(new Promise((resolve, reject) => {
+    fetch.returns(new Promise((resolve, reject) => {
       resolve(res)
     }))
     // stub Meteor objects
