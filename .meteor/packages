@@ -30,3 +30,6 @@ iron:router
 markdown
 underscore
 styles
+mike:mocha
+practicalmeteor:sinon
+velocity:html-reporter
